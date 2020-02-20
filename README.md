@@ -1,4 +1,4 @@
-# muse-base
+# monada-jigen
 
 ## Project setup
 ```

@@ -1,0 +1,74 @@
+[
+  {
+    "_id": "5e4d5ca11c9d440000b6ea7f",
+    "type": "video",
+    "name": "RPG Ambiance Fantasy #02 ON THE ROAD",
+    "description": "The road is long and often a source of adventure! Check your mounts one last time and gallop through the world of your favorite fantasy universe!",
+    "thumbnail": "https://img.youtube.com/vi/jz0OH0d-kpE/0.jpg",
+    "style": "",
+    "videoUrl": "https://www.youtube.com/watch?v=jz0OH0d-kpE"
+  },
+  {
+    "_id": "5e4d5d821c9d440000b6ea80",
+    "type": "video",
+    "name": "Ori and the Blind Forest - Official Soundtrack",
+    "description": "Music composed by Gareth Coker",
+    "thumbnail": "https://img.youtube.com/vi/MkzeOmkOUHM/0.jpg",
+    "style": "",
+    "videoUrl": "https://www.youtube.com/watch?v=MkzeOmkOUHM"
+  },
+  {
+    "_id": "5e4d5fee1c9d440000b6ea81",
+    "type": "video",
+    "name": "Child of Light: Complete Soundtrack",
+    "description": "A beautiful game with a beautiful score. What more is there to say? This soundtrack was created using the audio files ripped from the game itself(gamerip).It includes many amazing songs and cues that were not included on the official soundtrack release. Composed by: Béatrice Martin ",
+    "thumbnail": "https://img.youtube.com/vi/v6KcYN0A5LY/0.jpg",
+    "style": "",
+    "videoUrl": "https://www.youtube.com/watch?v=v6KcYN0A5LY"
+  },
+  {
+    "_id": "5e4d60121c9d440000b6ea82",
+    "type": "video",
+    "name": "Relaxing Piano Studio Ghibli",
+    "description": "Relaxing Piano Studio Ghibli Complete Collection",
+    "thumbnail": "https://img.youtube.com/vi/wqeJ5Vkb6JE/0.jpg",
+    "style": "",
+    "videoUrl": "https://www.youtube.com/watch?v=wqeJ5Vkb6JE"
+  },
+  {
+    "_id": "5e4d602d1c9d440000b6ea83",
+    "type": "video",
+    "name": "World of Warcraft - Mists of Pandaria",
+    "description": "Music from the video game World of Warcraft : Mists of Pandaria from 2012, by Blizzard Music by Russell Brower, Nean Acree, Sam Cardon, Edo Guidotti & Jeremy Soule",
+    "thumbnail": "https://img.youtube.com/vi/WZDmbz6ZXHI/0.jpg",
+    "style": "",
+    "videoUrl": "https://www.youtube.com/watch?v=WZDmbz6ZXHI"
+  },
+  {
+    "_id": "5e4d60451c9d440000b6ea84",
+    "type": "video",
+    "name": "Horizon: Zero Dawn - Full Original Soundtrack",
+    "description": "Music composed by: Joris de Man, The Flight, Niels van der Leest, Jonathan Williams",
+    "thumbnail": "https://img.youtube.com/vi/p_5bzTSGIVw/0.jpg",
+    "style": "",
+    "videoUrl": "https://www.youtube.com/watch?v=p_5bzTSGIVw"
+  },
+  {
+    "_id": "5e4d60611c9d440000b6ea85",
+    "type": "video",
+    "name": "Kung Fu Panda Soundtrack: Oogway Ascends",
+    "description": "Today's video is a 1-hour extension of Oogway Ascends from the Kung Fu Panda soundtrack. Music composed by: Hans Zimmer and John Powell",
+    "thumbnail": "https://img.youtube.com/vi/gaVng7QcHdI/0.jpg",
+    "style": "",
+    "videoUrl": "https://www.youtube.com/watch?v=gaVng7QcHdI"
+  },
+  {
+    "_id": "5e4d60791c9d440000b6ea86",
+    "type": "video",
+    "name": "Skyrim Exploration Suite",
+    "description": "Credit goes to the composer of the incredible Skyrim soundtrack, Jeremy Soule.",
+    "thumbnail": "https://img.youtube.com/vi/xWtfo9kuRTU/0.jpg",
+    "style": "",
+    "videoUrl": "https://www.youtube.com/watch?v=xWtfo9kuRTU"
+  }
+]
