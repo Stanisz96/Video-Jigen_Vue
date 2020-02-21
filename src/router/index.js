@@ -5,6 +5,7 @@ import Monads from '../views/Monads.vue'
 import MonadsColor from '../views/MonadsColor.vue'
 import Videos from '../views/Videos.vue'
 import SingleVideo from '../views/SingleVideo.vue'
+import TagVideoList from '../views/TagVideoList.vue'
 
 Vue.use(VueRouter)
 
@@ -26,7 +27,7 @@ const routes = [
     component: Monads
   },
   {
-    path: '/monads/mcolors/:id',
+    path: '/monads/:id',
     name: "monads-color",
     component: MonadsColor,
     params: true
@@ -40,6 +41,12 @@ const routes = [
     path: '/videos/:id',
     name: 'single-video',
     component: SingleVideo,
+    params: true
+  },
+  {
+    path: '/videos/tag/:id',
+    name: "tag",
+    component: TagVideoList,
     params: true
   }
 ]

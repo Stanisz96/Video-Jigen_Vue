@@ -2,33 +2,23 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { Server } from 'miragejs'
-import videosJSON from './mirage/videos.json'
-import mcolorJSON from './mirage/monads_color.json'
+import { makeServer } from './mirage/server'
+import vuetify from './plugins/vuetify';
+// import { Server, JSONAPISerializer, Model } from 'miragejs'
+// import videoJSON from './mirage/videos.json'
+//import mcolorJSON from './mirage/monads_color.json'
 
-let server = new Server({
-  routes() {
-    this.get("/videos", function ({ db }) {
-      return db.videos
-
-    }),
-      this.get("/monads", function ({ db }) {
-        return db.monads_color
-      })
-  }
-})
-
-server.db.loadData({
-  videos: videosJSON,
-  monads_color: mcolorJSON
-})
 
 
 Vue.config.productionTip = false
 
+if (process.env.NODE_ENV === "development") {
+  makeServer()
+}
+
 new Vue({
   router,
   store,
-  server,
-  render: h => h(App),
+  vuetify,
+  render: h => h(App)
 }).$mount('#app')

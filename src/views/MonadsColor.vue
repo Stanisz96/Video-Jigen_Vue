@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="findColor.thumbnail" alt="thumbnail" :style="findColor.thumbnail_color" />
+    <img :src="findColor.thumbnail" alt="thumbnail" :style="findColor['thumbnail-color']" />
     <h1>{{findColor.name}}</h1>
     <div class="mcolor-description">{{findColor.description}}</div>
   </div>
@@ -19,10 +19,10 @@ export default {
 };
 </script>
 
-<style scope>
-img {
+<style scoped>
+/* img {
   max-width: 40%;
-  padding: 5px;
+  padding: 500px;
   box-shadow: 0 0 5px 2px rgba(0, 140, 186, 0.5);
   border-radius: 20px;
 }
@@ -30,5 +30,5 @@ img {
   max-width: 70%;
   text-align: center;
   display: inline-block;
-}
+} */
 </style>
