@@ -1,9 +1,9 @@
 <template>
-  <div id="app">
-    <h1 class="display-3 font-weight-regular my-6 d-flex justify-center">Music Videos</h1>
+  <div>
+    <div class="display-3 font-weight-regular my-6 d-flex justify-center">Music Videos</div>
     <div class="d-flex flex-wrap justify-center">
       <div v-for="video in videos" :key="video.name">
-        <VideoListVideo :video="video" class="ma-2 pa-2"></VideoListVideo>
+        <VideoListVideo :video="video" class="ma-3 pa-2"></VideoListVideo>
       </div>
     </div>
   </div>

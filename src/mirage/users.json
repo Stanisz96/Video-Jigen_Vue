@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "name": "Paul Beverley",
+    "email": "paul@gmail.com"
+  },
+  {
+    "id": 2,
+    "name": "Alex Christensen",
+    "email": "alex@gmail.com"
+  },
+  {
+    "id": 3,
+    "name": "Bigby Chikatilo",
+    "email": "bigby@gmail.com"
+  },
+  {
+    "id": 4,
+    "name": "Vito Stalin",
+    "email": "vito@gmail.com"
+  },
+  {
+    "id": 5,
+    "name": "Morgon Fred",
+    "email": "morgon@gmail.com"
+  }
+]

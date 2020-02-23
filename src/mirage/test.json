@@ -1,98 +1,131 @@
 [
   {
-    "id": "5e4d5ca11c9d440000b6ea7f",
     "name": "RPG Ambiance Fantasy #02 ON THE ROAD",
     "description": "The road is long and often a source of adventure! Check your mounts one last time and gallop through the world of your favorite fantasy universe!",
     "thumbnail": "https://img.youtube.com/vi/jz0OH0d-kpE/0.jpg",
     "style": "",
-    "videoUrl": "https://www.youtube.com/watch?v=jz0OH0d-kpE",
+    "video-url": "https://www.youtube.com/watch?v=jz0OH0d-kpE",
     "tagIds": [
       "3",
       "4"
-    ]
+    ],
+    "id": "5e4d5ca11c9d440000b6ea7f"
   },
   {
-    "id": "5e4d5d821c9d440000b6ea80",
     "name": "Ori and the Blind Forest - Official Soundtrack",
     "description": "Music composed by Gareth Coker",
     "thumbnail": "https://img.youtube.com/vi/MkzeOmkOUHM/0.jpg",
     "style": "",
-    "videoUrl": "https://www.youtube.com/watch?v=MkzeOmkOUHM",
+    "video-url": "https://www.youtube.com/watch?v=MkzeOmkOUHM",
     "tagIds": [
       "1",
       "3"
-    ]
+    ],
+    "id": "5e4d5d821c9d440000b6ea80"
   },
   {
-    "id": "5e4d5fee1c9d440000b6ea81",
     "name": "Child of Light: Complete Soundtrack",
     "description": "A beautiful game with a beautiful score. What more is there to say? This soundtrack was created using the audio files ripped from the game itself(gamerip).It includes many amazing songs and cues that were not included on the official soundtrack release. Composed by: Béatrice Martin ",
     "thumbnail": "https://img.youtube.com/vi/v6KcYN0A5LY/0.jpg",
     "style": "",
-    "videoUrl": "https://www.youtube.com/watch?v=v6KcYN0A5LY",
+    "video-url": "https://www.youtube.com/watch?v=v6KcYN0A5LY",
     "tagIds": [
       "1",
       "3"
-    ]
+    ],
+    "id": "5e4d5fee1c9d440000b6ea81"
   },
   {
-    "id": "5e4d60121c9d440000b6ea82",
     "name": "Relaxing Piano Studio Ghibli",
     "description": "Relaxing Piano Studio Ghibli Complete Collection",
     "thumbnail": "https://img.youtube.com/vi/wqeJ5Vkb6JE/0.jpg",
     "style": "",
-    "videoUrl": "https://www.youtube.com/watch?v=wqeJ5Vkb6JE",
+    "video-url": "https://www.youtube.com/watch?v=wqeJ5Vkb6JE",
     "tagIds": [
       "2",
       "3"
-    ]
+    ],
+    "id": "5e4d60121c9d440000b6ea82"
   },
   {
-    "id": "5e4d602d1c9d440000b6ea83",
     "name": "World of Warcraft - Mists of Pandaria",
     "description": "Music from the video game World of Warcraft : Mists of Pandaria from 2012, by Blizzard Music by Russell Brower, Nean Acree, Sam Cardon, Edo Guidotti & Jeremy Soule",
     "thumbnail": "https://img.youtube.com/vi/WZDmbz6ZXHI/0.jpg",
     "style": "",
-    "videoUrl": "https://www.youtube.com/watch?v=WZDmbz6ZXHI",
+    "video-url": "https://www.youtube.com/watch?v=WZDmbz6ZXHI",
     "tagIds": [
       "1",
       "3"
-    ]
+    ],
+    "id": "5e4d602d1c9d440000b6ea83"
   },
   {
-    "id": "5e4d60451c9d440000b6ea84",
     "name": "Horizon: Zero Dawn - Full Original Soundtrack",
     "description": "Music composed by: Joris de Man, The Flight, Niels van der Leest, Jonathan Williams",
     "thumbnail": "https://img.youtube.com/vi/p_5bzTSGIVw/0.jpg",
     "style": "",
-    "videoUrl": "https://www.youtube.com/watch?v=p_5bzTSGIVw",
+    "video-url": "https://www.youtube.com/watch?v=p_5bzTSGIVw",
     "tagIds": [
       "1",
       "3"
-    ]
+    ],
+    "id": "5e4d60451c9d440000b6ea84"
   },
   {
-    "id": "5e4d60611c9d440000b6ea85",
     "name": "Kung Fu Panda Soundtrack: Oogway Ascends",
     "description": "Today's video is a 1-hour extension of Oogway Ascends from the Kung Fu Panda soundtrack. Music composed by: Hans Zimmer and John Powell",
     "thumbnail": "https://img.youtube.com/vi/gaVng7QcHdI/0.jpg",
     "style": "",
-    "videoUrl": "https://www.youtube.com/watch?v=gaVng7QcHdI",
+    "video-url": "https://www.youtube.com/watch?v=gaVng7QcHdI",
     "tagIds": [
       "2",
+      "3",
+      "5"
+    ],
+    "id": "5e4d60611c9d440000b6ea85"
+  },
+  {
+    "name": "Skyrim Exploration Suite",
+    "description": "Credit goes to the composer of the incredible Skyrim soundtrack, Jeremy Soule.",
+    "thumbnail": "https://img.youtube.com/vi/xWtfo9kuRTU/0.jpg",
+    "style": "",
+    "video-url": "https://www.youtube.com/watch?v=xWtfo9kuRTU",
+    "tagIds": [
+      "1",
+      "3"
+    ],
+    "id": "5e4d60791c9d440000b6ea86"
+  },
+  {
+    "id": "1k8h5-gt64v7",
+    "name": "Skyrim - Day",
+    "video-url": "https://www.youtube.com/watch?v=hBkcwy-iWt8",
+    "description": "Composed by Jeremy Soule.\n\n© 2011 Bethesda Softworks LLC, a ZeniMax Media company. The Elder Scrolls, Skyrim, Bethesda, Bethesda Game Studios, Bethesda Softworks, ZeniMax and related logos are registered trademarks or trademarks of ZeniMax Media Inc. in the U.S. and/or other countries. All Rights Reserved.",
+    "thumbnail": "https://img.youtube.com/vi/hBkcwy-iWt8/0.jpg",
+    "tagIds": [
+      "1",
       "3",
       "5"
     ]
   },
   {
-    "id": "5e4d60791c9d440000b6ea86",
-    "name": "Skyrim Exploration Suite",
-    "description": "Credit goes to the composer of the incredible Skyrim soundtrack, Jeremy Soule.",
-    "thumbnail": "https://img.youtube.com/vi/xWtfo9kuRTU/0.jpg",
-    "style": "",
-    "videoUrl": "https://www.youtube.com/watch?v=xWtfo9kuRTU",
+    "id": "2c7fh57-h6",
+    "name": "Epic Chillstep Collection 2015",
+    "video-url": "https://www.youtube.com/watch?v=fWRISvgAygU",
+    "description": "Chillstep has been one of my favorite genres for quite some time now. So here is an epic 2 hour chillstep mix/collection! ",
+    "thumbnail": "https://img.youtube.com/vi/fWRISvgAygU/0.jpg",
     "tagIds": [
-      "1",
+      "5"
+    ]
+  },
+  {
+    "id": "95082b6b-2be2-43c9-a844-8e2ce7c975da",
+    "name": "Natsume Yuujinchou OST",
+    "video-url": "https://www.youtube.com/watch?v=UMI86Nnpsuk",
+    "description": "Shining afternoon with Nyanko Sensei in early summer,\nwhat a sleepy moment...  (=^-ω-^=) ...",
+    "thumbnail": "https://img.youtube.com/vi/UMI86Nnpsuk/0.jpg",
+    "tagIds": [
+      "5",
       "3"
     ]
   }

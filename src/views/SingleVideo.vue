@@ -1,29 +1,52 @@
 <template>
-  <div class="video-container">
-    <div class="video-box">
-      <youtube :video-id="getVideoId(findVideo)" ref="youtube"></youtube>
-      <div class="tags">
-        <div class="tag" v-for="tagId in findVideo.tagIds" :key="tagId">
-          <router-link :to="{ name: 'tag', params: { id: tagId} }">
-            <button>{{getTag(tagId).name}}</button>
-          </router-link>
+  <v-container fluid>
+    <v-row>
+      <v-col md="7" cols="12" v-show="loaded">
+        <div class="video-style">
+          <youtube
+            :video-id="getVideoId(findVideo)"
+            ref="youtube"
+            fitParent
+            resize
+            :resizeDelay="0"
+            @ready="loaded=true"
+          ></youtube>
         </div>
-      </div>
-      <h1>{{findVideo.name}}</h1>
-      <!-- <button @click="showVideo=true"></button> -->
-      <div class="video-description">{{findVideo.description}}</div>
-    </div>
-  </div>
+      </v-col>
+      <v-col md="5" cols="12">
+        <div class="display-1 mb-3 font-weight-regular">{{findVideo.name}}</div>
+        <v-btn depressed icon small @click="likeVideo(findVideo.id)">
+          <v-icon v-if="liked" color="#7dbd81">{{ icons.mdiHeart }}</v-icon>
+          <v-icon v-else color="#7dbd81">{{ icons.mdiHeartOutline }}</v-icon>
+        </v-btn>
+        <div class="my-3 video-description">{{findVideo.description}}</div>
+        <div class="d-inline-flex">
+          <div class="tag" v-for="tagId in findVideo.tagIds" :key="tagId" color="#a1e3a6">
+            <v-btn
+              class="button mr-2"
+              x-small
+              :to="{ name: 'tag', params: { id: tagId} }"
+              text
+            >{{getTag(tagId).name}}</v-btn>
+          </div>
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
+import { mdiHeart, mdiHeartOutline } from "@mdi/js";
 // import Api from "@/services/api";
 
 export default {
   name: "SingleVideo",
+  mounted() {
+    //this.loaded = true;
+  },
   computed: {
-    ...mapState(["videos"]),
+    ...mapState(["videos", "likedVideos"]),
     ...mapGetters(["getTag"]),
     player() {
       return this.$refs.youtube.player;
@@ -32,22 +55,50 @@ export default {
       // this.signleVideo = this.videos.find(
       //   video => video.id == this.$route.params.id
       // );
-      return this.videos.find(video => video.id == this.$route.params.id) || {};
+      console.log(
+        this.videos.find(video => video.id == this.$route.params.id)[
+          "video-url"
+        ]
+      );
+      return this.videos.find(video => video.id == this.$route.params.id);
+    },
+    liked() {
+      return this.likedVideos.includes(this.findVideo.id);
     }
   },
   methods: {
+    ...mapActions(["likeVideo"]),
     playVideo() {
       this.player.playVideo();
     },
     getVideoId(vid) {
-      console.log(vid["video-url"]);
-      return vid["video-url"].split("=")[1];
+      if (!vid.videoUrl) {
+        return vid["video-url"].split("=")[1];
+      } else {
+        return vid.videoUrl.split("=")[1];
+      }
     }
+  },
+  data() {
+    return {
+      loaded: false,
+      icons: {
+        mdiHeart,
+        mdiHeartOutline
+      }
+    };
   }
 };
 </script>
 
 <style lang="scss">
+.video-style {
+  iframe {
+    box-shadow: 0 0 0.3em 0.05em rgba(19, 119, 32, 0.733);
+    border-radius: 1em;
+  }
+}
+
 // .video-container {
 //   // background-color: #f7fff8;
 //   //border: 0.1em solid rgba(79, 168, 109, 0.671);

@@ -1,7 +1,7 @@
 [
   {
     "id": "1",
-    "name": "Game Soundtrack",
+    "name": "Game",
     "videoIds": [
       "5e4d5d821c9d440000b6ea80",
       "5e4d5fee1c9d440000b6ea81",
@@ -12,7 +12,7 @@
   },
   {
     "id": "2",
-    "name": "Movie Soundtrack",
+    "name": "Movie",
     "videoIds": [
       "5e4d60121c9d440000b6ea82",
       "5e4d60611c9d440000b6ea85"
@@ -29,6 +29,20 @@
       "5e4d60451c9d440000b6ea84",
       "5e4d60791c9d440000b6ea86",
       "5e4d60121c9d440000b6ea82",
+      "5e4d60611c9d440000b6ea85"
+    ]
+  },
+  {
+    "id": "4",
+    "name": "Classical",
+    "videoIds": [
+      "5e4d5ca11c9d440000b6ea7f"
+    ]
+  },
+  {
+    "id": "5",
+    "name": "Chill",
+    "videoIds": [
       "5e4d60611c9d440000b6ea85"
     ]
   }

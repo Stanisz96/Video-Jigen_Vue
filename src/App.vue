@@ -1,21 +1,13 @@
 <template>
   <v-app :style="bgColor">
-    <v-app-bar app>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-        <span>Monada Jigen</span>
-      </div>
+    <v-app-bar app color="#5eb56f">
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+      <v-btn href="#/videos" text x-large>Home</v-btn>
+      <v-btn href="#/admin/videos" text large>Admin</v-btn>
 
       <v-spacer></v-spacer>
-
-      <v-btn href="#/" target="_blank" text>
+      <v-btn href="/" text>
         <span>Login</span>
       </v-btn>
     </v-app-bar>
@@ -31,12 +23,12 @@ import { mapActions } from "vuex";
 
 export default {
   name: "App",
+
   mounted() {
     this.loadVideos();
-    this.loadMonads();
   },
   methods: {
-    ...mapActions(["loadVideos", "loadMonads"])
+    ...mapActions(["loadVideos"])
   },
   components: {},
   data: () => ({

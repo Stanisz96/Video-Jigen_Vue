@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="display-3 font-weight-regular my-6 d-flex justify-center">{{tag.name}}</h1>
+    <div class="display-3 font-weight-regular my-6 d-flex justify-center">Tag: {{tag.name}}</div>
     <div class="d-flex flex-wrap justify-center">
       <div v-for="video in videosOnTag" :key="video.id">
         <VideoListVideo :video="video" class="ma-2 pa-2" />

@@ -16,9 +16,20 @@ if (process.env.NODE_ENV === "development") {
   makeServer()
 }
 
+// router.beforeEach(async (to, from, next) => {
+//   // make sure we always have job openings
+//   if (store.state.videos.length === 0) {
+//     await store.dispatch('loadVideos')
+//   } else {
+//     next()
+//   }
+// })
+
+
 new Vue({
   router,
   store,
   vuetify,
   render: h => h(App)
 }).$mount('#app')
+
