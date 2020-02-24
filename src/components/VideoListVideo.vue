@@ -15,7 +15,7 @@
         <v-container bottom class="pa-1">
           <v-row>
             <v-col cols="10">
-              <div class="d-inline-flex">
+              <div class="d-inline-flex flex-wrap">
                 <div class="tag" v-for="tagId in video.tagIds" :key="tagId" color="#a1e3a6">
                   <v-btn
                     class="button mr-2"

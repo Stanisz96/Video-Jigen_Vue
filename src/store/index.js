@@ -35,14 +35,15 @@ export default new Vuex.Store({
         state.tags = JSON.parse(window.localStorage.tags)
       }
     },
+    SET_LIKED_VIDEOS(state, likedVideos) {
+      state.likedVideos = likedVideos
+    },
+
     // ADD TO STATE OBJECTS
     ADD_VIDEO(state, video) {
       let videos = state.videos.concat(video)
       state.videos = videos
       window.localStorage.addedVideos = JSON.stringify(videos)
-    },
-    SET_LIKED_VIDEOS(state, likedVideos) {
-      state.likedVideos = likedVideos
     },
     LIKE_VIDEO(state, videoId) {
       let likedVideos = []
@@ -60,23 +61,50 @@ export default new Vuex.Store({
         window.localStorage.likedVideos = JSON.stringify(likedVideos)
       }
     },
+
+    // DELETE IN STATE OBJECTS
+    DELETE_VIDEO(state, videoId) {
+
+      let videos = state.videos.filter(v => v.id != videoId)
+      state.videos = videos
+      window.localStorage.addedVideos = JSON.stringify(state.videos)
+    },
+
+    // UPDATE IN STATE OBJECTS
     UPDATE_TAGS(state, video) {
       let videoId = video.id
       let videoTags = video.tagIds
+      console.log("videoTags")
+      console.log(videoTags)
       let tags = state.tags
-      console.log("lets see:")
       tags.forEach(tag => {
         if (videoTags.includes(tag.id)) {
-          console.log(tag.videosId)
-          tag.videosId.push(videoId)
+          if (!tag.videosId.includes(videoId)) {
+            tag.videosId.push(videoId)
+          }
+        } else {
+          if (tag.videosId.includes(videoId)) {
+            tag.videosId = tag.videosId.filter(vid => vid != videoId)
+          }
         }
       })
       console.log(tags)
+      state.tags = tags
       window.localStorage.tags = JSON.stringify(tags)
+    },
+    EDIT_VIDEO(state, video) {
+      state.videos.forEach(v => {
+        if (v.id == video.id) {
+          v = video
+
+        }
+      })
+      window.localStorage.addedVideos = JSON.stringify(state.videos)
     }
+
   },
   actions: {
-    // Load Date
+    // Load Data
     async loadVideos({ commit }) {
       let response = await Api().get("/api/videos");
       let videos = response.data.data
@@ -103,7 +131,7 @@ export default new Vuex.Store({
       commit('SET_LIKED_VIDEOS', likedVideos)
     },
 
-    // Create Date
+    // Create Data
     async createVideo({ commit }, video) {
       let response = await Api().post('/api/videos', video)
       let savedVideo = response.data.data;
@@ -115,13 +143,22 @@ export default new Vuex.Store({
       commit('ADD_VIDEO', savedVideo)
       return savedVideo;
     },
+
+    // Update Data
     likeVideo({ commit }, videoId) {
       commit('LIKE_VIDEO', videoId)
     },
     updateTags({ commit }, video) {
       commit('UPDATE_TAGS', video)
-    }
+    },
+    async editVideo({ commit }, video) {
+      commit('EDIT_VIDEO', video)
+    },
 
+    // Delete Data
+    async deleteVideo({ commit }, video) {
+      commit('DELETE_VIDEO', video.id)
+    }
   },
   modules: {},
   getters: {

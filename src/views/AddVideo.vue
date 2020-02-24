@@ -143,7 +143,7 @@ export default {
     addVideo(video) {
       this.createVideo(video);
       this.updateTags(video);
-      this.$router.push({ name: "single-video", params: { id: video.id } });
+      this.$router.push({ name: "videos" });
     }
   },
   data() {

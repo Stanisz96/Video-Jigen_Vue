@@ -2,7 +2,7 @@
   <v-container>
     <h1>Video List</h1>
     <v-btn to="/videos/add">Add Video</v-btn>
-    <div class="flex-table">
+    <div class="flex-table tit">
       <div>Name</div>
       <div>Description</div>
       <div>Actions</div>
@@ -11,16 +11,16 @@
       <div>{{ video.name}}</div>
       <div>{{ video.description | abbreviate}}</div>
       <div class="actions">
-        <router-link :to="{ name: 'single-video',params: {id: video.id}}">Show</router-link>
-        <!-- <router-link :to="">Edit</router-link>
-        <router-link :to="">Delite</router-link>-->
+        <router-link class="link" :to="{ name: 'single-video',params: {id: video.id}}">Show</router-link>
+        <router-link class="link" :to="{ name: 'admin-video-edit',params: {id: video.id}}">Edit</router-link>
+        <v-btn class="button" @click="removeVideo(video)">Delete</v-btn>
       </div>
     </div>
   </v-container>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   computed: {
     ...mapState(["videos"])
@@ -28,7 +28,16 @@ export default {
   filters: {
     abbreviate(text) {
       if (text) {
-        return text && text.slice(0, 40);
+        return text && text.slice(0, 40) + "...";
+      }
+    }
+  },
+  methods: {
+    ...mapActions(["deleteVideo"]),
+    removeVideo(video) {
+      let response = confirm(`Are you sure you want to delete ${video.name}?`);
+      if (response) {
+        this.deleteVideo(video);
       }
     }
   }
@@ -41,14 +50,20 @@ export default {
   grid-template-columns: repeat(auto-fill, 33%);
   padding: 1em;
   border-bottom: 1px #5eb56f solid;
-
+  &.tit {
+    text-align: center;
+  }
   &:nth-of-type(2n) {
     background-color: #e1fae3;
   }
 
   .actions {
-    * {
-      padding-right: 2em;
+    text-align: center;
+    .link {
+      padding: 1em;
+    }
+    .button {
+      margin-left: 1em;
     }
   }
 }

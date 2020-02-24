@@ -1,26 +1,22 @@
+
 const express = require('express')
-const cors = require('cors')
+const app = express()
+const mongoose = require('mongoose')
 
-const app = express();
+mongoose.connect('mongodb+srv://user1:pass1@jigencluster-qypzc.mongodb.net/test?retryWrites=true&w=majority', {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+  dbName: 'video-jigen',
 
-// Middleware
+})
+
+const db = mongoose.connection
+db.on('error', (error) => console.error(error))
+db.once('open', () => console.log('Connected to Database'))
 app.use(express.json())
-app.use(cors())
 
-const videos = require('./routes/api/videos')
+const videosRouter = require('./routes/api/videos')
+app.use('/api/videos', videosRouter)
 
-app.use('/api/videos', videos)
+app.listen(3000, () => console.log('Server Started'))
 
-// // Handle production
-// if (process.env.NODE_ENV === 'production') {
-//   // Static folder
-//   app.use(express.static(__dirname + '/public/'))
-
-//   // Handle SPA
-//   app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'))
-// }
-
-
-const port = process.env.PORT || 5000
-
-app.listen(port, () => console.log(`Server started on port ${port}`))
