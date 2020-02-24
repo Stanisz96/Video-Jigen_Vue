@@ -72,10 +72,9 @@ export default {
       this.player.playVideo();
     },
     getVideoId(vid) {
-      console.log("co kurwa");
+
       console.log(vid);
       if (!vid.videoUrl) {
-        console.log("to ścierwo wybrane");
         console.log(vid);
         return vid["video-url"].split("=")[1];
       } else {
