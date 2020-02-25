@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { makeServer } from './mirage/server'
+// import { makeServer } from './mirage/server'
 import vuetify from './plugins/vuetify';
 // import { Server, JSONAPISerializer, Model } from 'miragejs'
 // import videoJSON from './mirage/videos.json'
@@ -12,9 +12,9 @@ import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false
 
-if (process.env.NODE_ENV === "development") {
-  makeServer()
-}
+// if (process.env.NODE_ENV === "development") {
+//   makeServer()
+// }
 
 // router.beforeEach(async (to, from, next) => {
 //   // make sure we always have job openings

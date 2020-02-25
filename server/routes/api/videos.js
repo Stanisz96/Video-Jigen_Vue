@@ -33,11 +33,13 @@ router.post('/', async (req, res) => {
   }
 })
 // Update video
-router.patch('/:d', getVideo, async (req, res) => {
-  if (req.body.name != null) {
-    res.video.name = req.body.name
-  }
-  // ....
+router.patch('/:id', getVideo, async (req, res) => {
+  if (req.body.name != null) res.video.name = req.body.name
+  if (req.body.description != null) res.video.description = req.body.description
+  if (req.body.thumbnail != null) res.video.thumbnail = req.body.thumbnail
+  if (req.body.videoUrl != null) res.video.videoUrl = req.body.videoUrl
+  if (req.body.tagIds != null) res.video.tagIds = req.body.tagIds
+
   try {
     const updatedVideo = await res.video.save()
     res.json(updatedVideo)

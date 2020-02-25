@@ -16,24 +16,14 @@ export default new Vuex.Store({
   mutations: {
     // SET STATE OBJECTS
     SET_VIDEOS(state, videos) {
-      if (window.localStorage.getItem("addedVideos") === null) {
-        state.videos = videos;
-        window.localStorage.setItem('addedVideos', JSON.stringify(videos))
-        console.log("wczytywane na nowo")
-      }
-      else {
-        state.videos = JSON.parse(window.localStorage.addedVideos)
-        console.log("wczytywane z localStorage")
-      }
+      state.videos = videos;
+      console.log("Load videos data:")
+      console.log(videos)
     },
     SET_TAGS(state, tags) {
-      if (window.localStorage.getItem("tags") === null) {
-        state.tags = tags
-        window.localStorage.setItem('tags', JSON.stringify(tags))
-        window.localStorage.tags = JSON.stringify(tags)
-      } else {
-        state.tags = JSON.parse(window.localStorage.tags)
-      }
+      state.tags = tags
+      console.log("Load tags data:")
+      console.log(tags)
     },
     SET_LIKED_VIDEOS(state, likedVideos) {
       state.likedVideos = likedVideos
@@ -43,7 +33,6 @@ export default new Vuex.Store({
     ADD_VIDEO(state, video) {
       let videos = state.videos.concat(video)
       state.videos = videos
-      window.localStorage.addedVideos = JSON.stringify(videos)
     },
     LIKE_VIDEO(state, videoId) {
       let likedVideos = []
@@ -72,13 +61,13 @@ export default new Vuex.Store({
 
     // UPDATE IN STATE OBJECTS
     UPDATE_TAGS(state, video) {
-      let videoId = video.id
+      let videoId = video._id
       let videoTags = video.tagIds
       console.log("videoTags")
       console.log(videoTags)
       let tags = state.tags
       tags.forEach(tag => {
-        if (videoTags.includes(tag.id)) {
+        if (videoTags.includes(tag._id)) {
           if (!tag.videosId.includes(videoId)) {
             tag.videosId.push(videoId)
           }
@@ -90,7 +79,6 @@ export default new Vuex.Store({
       })
       console.log(tags)
       state.tags = tags
-      window.localStorage.tags = JSON.stringify(tags)
     },
     EDIT_VIDEO(state, video) {
       state.videos.forEach(v => {
@@ -106,41 +94,52 @@ export default new Vuex.Store({
   actions: {
     // Load Data
     async loadVideos({ commit }) {
-      let response = await Api().get("/api/videos");
-      let videos = response.data.data
+      console.log("send GET/videos")
+      let response = await Api().get("/videos");
+      let videos = response.data
+      console.log("GET/videos response data:")
+      console.log(videos)
 
-      let tags = response.data.included.filter(i => i.type === "tags")
-      videos.forEach(v => {
-        v.attributes.tagIds = v.relationships.tags.data.map(t => t.id)
-        v.attributes.id = v.id
-      });
-      tags.forEach(t => {
-        t.attributes.id = t.id
-        t.attributes.videosId = t.relationships.videos.data.map(v => v.id)
-      });
-      commit('SET_VIDEOS', videos.map(v => v.attributes))
-      commit('SET_TAGS', tags.map(t => t.attributes))
+      // let tags = response.data.included.filter(i => i.type === "tags")
+      // videos.forEach(v => {
+      //   v.attributes.tagIds = v.relationships.tags.data.map(t => t.id)
+      //   v.attributes.id = v.id
+      // });
+      // tags.forEach(t => {
+      //   t.attributes.id = t.id
+      //   t.attributes.videosId = t.relationships.videos.data.map(v => v.id)
+      // });
 
-      let likedVideos
-      if (window.localStorage.getItem("likedVideos") !== null) {
-        likedVideos = JSON.parse(window.localStorage.likedVideos)
-      } else {
-        window.localStorage.setItem('likedVideos', '[]')
-        likedVideos = JSON.parse(window.localStorage.likedVideos)
-      }
+      commit('SET_VIDEOS', videos)
+      // commit('SET_TAGS', tags.map(t => t.attributes))
+
+      let likedVideos = []
+      // if (window.localStorage.getItem("likedVideos") !== null) {
+      //   likedVideos = JSON.parse(window.localStorage.likedVideos)
+      // } else {
+      //   window.localStorage.setItem('likedVideos', '[]')
+      //   likedVideos = JSON.parse(window.localStorage.likedVideos)
+      // }
       commit('SET_LIKED_VIDEOS', likedVideos)
+    },
+    async loadTags({ commit }) {
+      console.log("send GET/tags")
+      let response = await Api().get("/tags");
+      let tags = response.data
+      console.log("GET/tags response data:")
+      console.log(tags)
+      commit('SET_TAGS', tags)
     },
 
     // Create Data
     async createVideo({ commit }, video) {
-      let response = await Api().post('/api/videos', video)
-      let savedVideo = response.data.data;
-
-      let relationships = savedVideo.relationships.tags.data
-      savedVideo = { id: savedVideo.id, ...savedVideo.attributes }
-      savedVideo.tagIds = relationships.map(x => x.id)
+      let response = await Api().post('/videos', video)
+      let savedVideo = response.data;
+      console.log("Saved video:")
+      console.log(savedVideo)
 
       commit('ADD_VIDEO', savedVideo)
+      commit('UPDATE_TAGS', savedVideo)
       return savedVideo;
     },
 
@@ -162,8 +161,8 @@ export default new Vuex.Store({
   },
   modules: {},
   getters: {
-    getTag: state => id => {
-      return state.tags.find(t => t.id == id);
+    getTag: state => _id => {
+      return state.tags.find(t => t._id == _id);
     }
   }
 })

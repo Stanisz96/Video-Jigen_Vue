@@ -24,11 +24,12 @@ import { mapActions } from "vuex";
 export default {
   name: "App",
 
-  mounted() {
+  created() {
     this.loadVideos();
+    this.loadTags();
   },
   methods: {
-    ...mapActions(["loadVideos"])
+    ...mapActions(["loadVideos", "loadTags"])
   },
   components: {},
   data: () => ({

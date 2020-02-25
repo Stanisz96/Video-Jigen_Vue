@@ -5,7 +5,7 @@
     <v-form v-model="valid">
       <v-container>
         <v-row justify="center">
-          <v-col cols="0" sm="0" md="1" lg="1" />
+          <v-spacer />
           <v-col cols="12 pa-2" sm="4" md="5" lg="5">
             <v-text-field
               v-model="video.name"
@@ -80,7 +80,7 @@
                     <v-row>
                       <v-col cols="10">
                         <div class="d-inline-flex flex-wrap">
-                          <div class="tag" v-for="tag in tagModel" :key="tag.id" color="#a1e3a6">
+                          <div class="tag" v-for="tag in tagModel" :key="tag._id" color="#a1e3a6">
                             <v-btn class="button mr-2" x-small text>{{tag.name}}</v-btn>
                           </div>
                         </div>
@@ -113,14 +113,18 @@
 <script>
 import { mdiHeart, mdiHeartOutline } from "@mdi/js";
 import { mapActions, mapState } from "vuex";
-import uuid from "uuid";
+import mongoose from "mongoose";
 
 export default {
   name: "AddVideo",
+  mounted() {
+    // this._id = new mongoose.Types.ObjectId();
+    console.log(this.video._id);
+  },
   computed: {
     ...mapState(["tags"]),
     tagNames() {
-      return this.tags.map(({ id, name }) => ({ id, name }));
+      return this.tags.map(({ _id, name }) => ({ _id, name }));
     },
     getThumbnail() {
       return this.video.thumbnail.concat(
@@ -142,7 +146,8 @@ export default {
     },
     addVideo(video) {
       this.createVideo(video);
-      this.updateTags(video);
+      console.log("ID befor updateTags");
+      console.log(video._id.toString());
       this.$router.push({ name: "videos" });
     }
   },
@@ -152,8 +157,7 @@ export default {
         name: "",
         description: "",
         thumbnail: "https://img.youtube.com/vi/0/0.jpg",
-        id: uuid.v4(),
-        style: "",
+        _id: mongoose.Types.ObjectId(),
         videoUrl: "",
         tagIds: []
       },
@@ -184,7 +188,7 @@ export default {
       if (val.length > 5) {
         this.$nextTick(() => this.tagModel.pop());
       }
-      this.video.tagIds = val.map(tag => tag.id);
+      this.video.tagIds = val.map(tag => tag._id);
     }
   }
 };

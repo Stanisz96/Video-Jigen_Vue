@@ -2,8 +2,9 @@
   <div>
     <div class="display-3 font-weight-regular my-6 d-flex justify-center">Music Videos</div>
     <div class="d-flex flex-wrap justify-center">
-      <div v-for="video in videos" :key="video.name">
-        <VideoListVideo :video="video" class="ma-3 pa-2"></VideoListVideo>
+      <div v-for="video in videos" :key="video._id">
+        {{checkout(video)}}
+        <VideoListVideo :video="video" class="ma-3 pa-2" />
       </div>
     </div>
   </div>
@@ -15,14 +16,18 @@ import VideoListVideo from "../components/VideoListVideo.vue";
 // import Api from "@/services/api";
 
 export default {
-  name: "videos",
   components: {
     VideoListVideo
   },
   computed: {
     ...mapState(["videos", "tags"])
   },
-  methods: {},
+  methods: {
+    checkout: function(v) {
+      console.log("Video in Videos page:");
+      console.log(v);
+    }
+  },
   data() {
     return {};
   }

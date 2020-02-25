@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid v-if="findVideo">
     <v-row>
       <v-col md="7" cols="12" v-show="loaded">
         <div class="video-style">
@@ -15,7 +15,7 @@
       </v-col>
       <v-col md="5" cols="12">
         <div class="display-1 mb-3 font-weight-regular">{{findVideo.name}}</div>
-        <v-btn depressed icon small @click="likeVideo(findVideo.id)">
+        <v-btn depressed icon small @click="likeVideo(findVideo._id)">
           <v-icon v-if="liked" color="#7dbd81">{{ icons.mdiHeart }}</v-icon>
           <v-icon v-else color="#7dbd81">{{ icons.mdiHeartOutline }}</v-icon>
         </v-btn>
@@ -23,6 +23,7 @@
         <div class="d-inline-flex">
           <div class="tag" v-for="tagId in findVideo.tagIds" :key="tagId" color="#a1e3a6">
             <v-btn
+              v-if="getTag(tagId)"
               class="button mr-2"
               x-small
               :to="{ name: 'tag', params: { id: tagId} }"
@@ -52,18 +53,10 @@ export default {
       return this.$refs.youtube.player;
     },
     findVideo: function() {
-      // this.signleVideo = this.videos.find(
-      //   video => video.id == this.$route.params.id
-      // );
-      console.log(
-        this.videos.find(video => video.id == this.$route.params.id)[
-          "video-url"
-        ]
-      );
-      return this.videos.find(video => video.id == this.$route.params.id);
+      return this.videos.find(video => video._id == this.$route.params.id);
     },
     liked() {
-      return this.likedVideos.includes(this.findVideo.id);
+      return this.likedVideos.includes(this.findVideo._id);
     }
   },
   methods: {
@@ -72,14 +65,7 @@ export default {
       this.player.playVideo();
     },
     getVideoId(vid) {
-
-      console.log(vid);
-      if (!vid.videoUrl) {
-        console.log(vid);
-        return vid["video-url"].split("=")[1];
-      } else {
-        return vid.videoUrl.split("=")[1];
-      }
+      return vid.videoUrl.split("=")[1];
     }
   },
   data() {
