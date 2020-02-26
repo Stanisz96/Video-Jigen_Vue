@@ -3,7 +3,7 @@
     <div class="display-3 font-weight-regular my-6 d-flex justify-center">Music Videos</div>
     <div class="d-flex flex-wrap justify-center">
       <div v-for="video in videos" :key="video._id">
-        {{checkout(video)}}
+        <!-- {{checkout(video)}} -->
         <VideoListVideo :video="video" class="ma-3 pa-2" />
       </div>
     </div>
@@ -23,10 +23,10 @@ export default {
     ...mapState(["videos", "tags"])
   },
   methods: {
-    checkout: function(v) {
-      console.log("Video in Videos page:");
-      console.log(v);
-    }
+    // checkout: function(v) {
+    //   console.log("Video in Videos page:");
+    //   console.log(v);
+    // }
   },
   data() {
     return {};

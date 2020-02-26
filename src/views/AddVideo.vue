@@ -113,13 +113,13 @@
 <script>
 import { mdiHeart, mdiHeartOutline } from "@mdi/js";
 import { mapActions, mapState } from "vuex";
-import mongoose from "mongoose";
+//import mongoose from "mongoose";
 
 export default {
   name: "AddVideo",
   mounted() {
     // this._id = new mongoose.Types.ObjectId();
-    console.log(this.video._id);
+    // console.log(this.video._id);
   },
   computed: {
     ...mapState(["tags"]),
@@ -144,10 +144,10 @@ export default {
     writeInConsole: function(val) {
       console.log(val);
     },
-    addVideo(video) {
-      this.createVideo(video);
-      console.log("ID befor updateTags");
-      console.log(video._id.toString());
+    async addVideo(video) {
+      let savedVideo = await this.createVideo(video);
+      this.updateTags(savedVideo);
+
       this.$router.push({ name: "videos" });
     }
   },
@@ -157,7 +157,7 @@ export default {
         name: "",
         description: "",
         thumbnail: "https://img.youtube.com/vi/0/0.jpg",
-        _id: mongoose.Types.ObjectId(),
+        _id: null,
         videoUrl: "",
         tagIds: []
       },

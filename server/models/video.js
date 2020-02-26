@@ -22,6 +22,11 @@ const videoSchema = new mongoose.Schema({
     required: true,
     default: []
   },
+  like: {
+    type: Boolean,
+    require: true,
+    default: false
+  },
   createdDate: {
     type: Date,
     required: true,

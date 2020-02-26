@@ -16,7 +16,7 @@
           small-chips
           clearable
           deletable-chips
-          item-value="id"
+          item-value="_id"
           item-text="name"
         >
           <template v-slot:no-data>
@@ -56,7 +56,7 @@
                 <v-row>
                   <v-col cols="10">
                     <div class="d-inline-flex flex-wrap">
-                      <div class="tag" v-for="tag in tagModel" :key="tag.id" color="#a1e3a6">
+                      <div class="tag" v-for="tag in tagModel" :key="tag._id" color="#a1e3a6">
                         <v-btn class="button mr-2" x-small text>{{tag.name}}</v-btn>
                       </div>
                     </div>
@@ -92,7 +92,7 @@ export default {
   computed: {
     ...mapState(["videos", "tags"]),
     tagNames() {
-      return this.tags.map(({ id, name }) => ({ id, name }));
+      return this.tags.map(({ _id, name }) => ({ _id, name }));
     },
     getThumbnail() {
       return this.video.thumbnail.concat(
@@ -112,20 +112,19 @@ export default {
     writeInConsole: function(val) {
       console.log(val);
     },
-    saveVideo() {
-      //console.log(this.video);
-      this.editVideo(this.video);
+    async saveVideo() {
+      await this.editVideo(this.video);
       this.updateTags(this.video);
       this.$router.push({ name: "admin-video-list" });
     }
   },
   mounted() {
-    this.video = this.videos.find(v => v.id == this.$route.params.id);
+    this.video = this.videos.find(v => v._id == this.$route.params.id);
     let x = this.tags.filter(tag => {
-      let lol = tag.videosId.filter(id => id == this.video.id);
+      let lol = tag.videosId.filter(_id => _id == this.video._id);
       return lol.length != 0;
     });
-    this.tagModel = x.map(({ id, name }) => ({ id, name }));
+    this.tagModel = x.map(({ _id, name }) => ({ _id, name }));
   },
   data() {
     return {
@@ -133,7 +132,7 @@ export default {
         name: "",
         description: "",
         thumbnail: "https://img.youtube.com/vi/0/0.jpg",
-        id: "",
+        _id: "",
         style: "",
         videoUrl: "",
         tagIds: []
@@ -151,7 +150,7 @@ export default {
   },
   watch: {
     tagModel(val) {
-      this.video.tagIds = val.map(tag => tag.id);
+      this.video.tagIds = val.map(tag => tag._id);
     }
   }
 };

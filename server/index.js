@@ -21,6 +21,8 @@ app.use(cors())
 const videosRouter = require('./routes/api/videos')
 const tagsRouter = require('./routes/api/tags')
 
+
+
 app.use('/api/videos', videosRouter)
 app.use('/api/tags', tagsRouter)
 

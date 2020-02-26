@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
 // Update tag
 router.patch('/:id', getTag, async (req, res) => {
   if (req.body.name != null) res.tag.name = req.body.name
-  if (req.body.videoIds != null) res.tag.videoIds = req.body.videoIds
+  if (req.body.videosId != null) res.tag.videosId = req.body.videosId
 
   try {
     const updatedTag = await res.tag.save()

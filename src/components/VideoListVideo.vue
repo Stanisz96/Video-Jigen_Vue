@@ -1,12 +1,11 @@
 <template>
   <v-card max-width="300" hover color="#e1fae3" class="rounded-card">
-    {{checkout(video)}}
     <div class="ma-1">
       <router-link :to="{ name: 'single-video', params: { id: video._id} }">
         <v-img :src="video.thumbnail" alt="thumbnail" class="img-card"></v-img>
       </router-link>
       <v-card-title class="flex-wrap pa-1">{{ video.name }}</v-card-title>
-      <v-btn depressed icon x-small @click="likeVideo(video._id)" class="ml-2 mb-2">
+      <v-btn depressed icon x-small @click="likeVideo(video)" class="ml-2 mb-2">
         <v-icon v-if="liked" color="#7dbd81">{{ icons.mdiHeart }}</v-icon>
         <v-icon v-else color="#7dbd81">{{ icons.mdiHeartOutline }}</v-icon>
       </v-btn>
@@ -48,7 +47,7 @@
   </v-card>
 </template>
 <script>
-import { mapGetters, mapActions, mapState } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import { mdiHeart, mdiHeartOutline } from "@mdi/js";
 
 export default {
@@ -56,9 +55,9 @@ export default {
   props: ["video"],
   computed: {
     ...mapGetters(["getTag"]),
-    ...mapState(["likedVideos"]),
+
     liked() {
-      return this.likedVideos.includes(this.video._id);
+      return this.video.like;
     }
   },
   data() {
@@ -73,11 +72,11 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["likeVideo"]),
-    checkout: function(v) {
-      console.log("Video in VideoListVideo component:");
-      console.log(v);
-    }
+    ...mapActions(["likeVideo"])
+    // checkout: function(v) {
+    //   console.log("Video in VideoListVideo component:");
+    //   console.log(v);
+    // }
   }
 };
 </script>

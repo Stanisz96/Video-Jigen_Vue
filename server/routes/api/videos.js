@@ -39,6 +39,7 @@ router.patch('/:id', getVideo, async (req, res) => {
   if (req.body.thumbnail != null) res.video.thumbnail = req.body.thumbnail
   if (req.body.videoUrl != null) res.video.videoUrl = req.body.videoUrl
   if (req.body.tagIds != null) res.video.tagIds = req.body.tagIds
+  if (req.body.like != null) res.video.like = req.body.like
 
   try {
     const updatedVideo = await res.video.save()
