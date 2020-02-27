@@ -1,10 +1,10 @@
-<template>
-  <v-container fluid v-if="findVideo">
+<template v-if="videos">
+  <v-container fluid>
     <v-row>
       <v-col md="7" cols="12" v-show="loaded">
         <div class="video-style">
           <youtube
-            :video-id="getVideoId(findVideo)"
+            :video-id="getVideoId(video)"
             ref="youtube"
             fitParent
             resize
@@ -14,14 +14,14 @@
         </div>
       </v-col>
       <v-col md="5" cols="12">
-        <div class="display-1 mb-3 font-weight-regular">{{findVideo.name}}</div>
-        <v-btn depressed icon small @click="likeVideo(findVideo._id)">
-          <v-icon v-if="liked" color="#7dbd81">{{ icons.mdiHeart }}</v-icon>
+        <div class="display-1 mb-3 font-weight-regular">{{video.name}}</div>
+        <v-btn depressed icon small @click="video.like = !video.like">
+          <v-icon v-if="video.like" color="#7dbd81">{{ icons.mdiHeart }}</v-icon>
           <v-icon v-else color="#7dbd81">{{ icons.mdiHeartOutline }}</v-icon>
         </v-btn>
-        <div class="my-3 video-description">{{findVideo.description}}</div>
+        <div class="my-3 video-description">{{video.description}}</div>
         <div class="d-inline-flex">
-          <div class="tag" v-for="tagId in findVideo.tagIds" :key="tagId" color="#a1e3a6">
+          <div class="tag" v-for="tagId in video.tagIds" :key="tagId" color="#a1e3a6">
             <v-btn
               v-if="getTag(tagId)"
               class="button mr-2"
@@ -42,17 +42,14 @@ import { mdiHeart, mdiHeartOutline } from "@mdi/js";
 
 export default {
   name: "SingleVideo",
+  created() {
+    this.video = this.videos.find(video => video._id == this.$route.params.id);
+  },
   computed: {
     ...mapState(["videos", "likedVideos"]),
     ...mapGetters(["getTag"]),
     player() {
       return this.$refs.youtube.player;
-    },
-    findVideo: function() {
-      return this.videos.find(video => video._id == this.$route.params.id);
-    },
-    liked() {
-      return this.likedVideos.includes(this.findVideo._id);
     }
   },
   methods: {
@@ -67,6 +64,7 @@ export default {
   data() {
     return {
       loaded: false,
+      video: Object,
       icons: {
         mdiHeart,
         mdiHeartOutline

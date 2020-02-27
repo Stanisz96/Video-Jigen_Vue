@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VueYoutube from "vue-youtube";
 import Api from '@/services/api'
+import createPersistedState from 'vuex-persistedstate'
+import Cookies from 'js-cookie'
 
 
 Vue.use(Vuex)
@@ -72,7 +74,6 @@ export default new Vuex.Store({
     async loadVideos({ commit }) {
       let response = await Api().get("/videos");
       let videos = response.data
-
       commit('SET_VIDEOS', videos)
     },
     async loadTags({ commit }) {
@@ -137,5 +138,11 @@ export default new Vuex.Store({
     getTag: state => _id => {
       return state.tags.find(t => t._id == _id);
     }
-  }
+  },
+  plugins: [
+    createPersistedState({
+      getState: (key) => Cookies.getJSON(key),
+      setState: (key, state) => Cookies.set(key, state, { expires: 3, secure: false })
+    })
+  ]
 })
