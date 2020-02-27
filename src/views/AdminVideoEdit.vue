@@ -33,23 +33,16 @@
         </v-combobox>
         <v-btn small @click="saveVideo(video)">Save</v-btn>
       </v-col>
-      <!-- <v-col cols="2" sm="1" md="1" lg="2" /> -->
       <v-spacer></v-spacer>
       <v-col cols="10" sm="6" md="5" lg="4">
         <v-card width="300" hover color="#e1fae3" class="rounded-card pa-2">
           <div class="ma-1">
-            <!-- <div v-if="url == 'undefined'">
-                  <v-img src="https://img.youtube.com/vi/0/0.jpg" alt="thumbnail" class="img-card"></v-img>
-                </div>
-            <div v-else>-->
             <v-img :src="video.thumbnail" alt="thumbnail" class="img-card"></v-img>
-            <!-- </div> -->
             <v-card-title class="flex-wrap pa-1">{{ video.name }}</v-card-title>
             <v-btn depressed icon x-small @click="liked=!liked" class="ml-2 mb-2">
               <v-icon v-if="liked" color="#7dbd81">{{ icons.mdiHeart }}</v-icon>
               <v-icon v-else color="#7dbd81">{{ icons.mdiHeartOutline }}</v-icon>
             </v-btn>
-            <!-- <v-spacer></v-spacer> -->
             <v-divider></v-divider>
             <v-card-actions class="pa-0">
               <v-container bottom class="pa-1">
@@ -120,11 +113,11 @@ export default {
   },
   mounted() {
     this.video = this.videos.find(v => v._id == this.$route.params.id);
-    let x = this.tags.filter(tag => {
-      let lol = tag.videosId.filter(_id => _id == this.video._id);
-      return lol.length != 0;
+    let editTag = this.tags.filter(tag => {
+      let filterTag = tag.videosId.filter(_id => _id == this.video._id);
+      return filterTag.length != 0;
     });
-    this.tagModel = x.map(({ _id, name }) => ({ _id, name }));
+    this.tagModel = editTag.map(({ _id, name }) => ({ _id, name }));
   },
   data() {
     return {

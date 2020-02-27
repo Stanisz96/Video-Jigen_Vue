@@ -16,30 +16,15 @@ export default new Vuex.Store({
     // SET STATE OBJECTS
     SET_VIDEOS(state, videos) {
       state.videos = videos;
-      // console.log("Load videos data:")
-      // console.log(videos)
     },
     SET_TAGS(state, tags) {
       state.tags = tags
-      // console.log("Load tags data:")
-      // console.log(tags)
     },
 
     // ADD TO STATE OBJECTS
     ADD_VIDEO(state, video) {
       let videos = state.videos.concat(video)
       state.videos = videos
-    },
-    LIKE_VIDEO(state, video) {
-      // let likeVideo = state.videos.find(v => v._id == video._id)
-      // likeVideo.like = !likeVideo.like
-      // state.videos.find(v => v._id == video._id) = likeVideo
-
-      state.videos.forEach(v => {
-        if (v._id == video._id) {
-          v.like = video.like
-        }
-      })
     },
 
     // DELETE IN STATE OBJECTS
@@ -50,32 +35,28 @@ export default new Vuex.Store({
 
     // UPDATE IN STATE OBJECTS
     UPDATE_TAGS(state, video) {
-      // console.log(`Update Tags for video with ID: ${video._id}`)
       let videoId = video._id
       let videoTags = video.tagIds
       let tags = state.tags
-      // let updatedTags
       tags.forEach(tag => {
         if (videoTags.includes(tag._id)) {
           if (!tag.videosId.includes(videoId)) {
             tag.videosId.push(videoId)
-
-            //  updatedTags.push(tag)
           }
         } else {
           if (tag.videosId.includes(videoId)) {
             tag.videosId = tag.videosId.filter(vid => vid != videoId)
-
-            //  updatedTags.push(tag)
           }
         }
       })
       state.tags = tags
-      // if (updatedTags != null) {
-      //   updatedTags.forEach(uTag => {
-      //     await Api().patch(`/tags/${uTag._id}`, uTag)
-      //   })
-      // }
+    },
+    LIKE_VIDEO(state, video) {
+      state.videos.forEach(v => {
+        if (v._id == video._id) {
+          v.like = video.like
+        }
+      })
     },
     EDIT_VIDEO(state, video) {
       state.videos.forEach(v => {
@@ -95,11 +76,9 @@ export default new Vuex.Store({
       commit('SET_VIDEOS', videos)
     },
     async loadTags({ commit }) {
-      // console.log("send GET/tags")
       let response = await Api().get("/tags");
       let tags = response.data
-      // console.log("GET/tags response data:")
-      // console.log(tags)
+
       commit('SET_TAGS', tags)
     },
 
@@ -107,8 +86,6 @@ export default new Vuex.Store({
     async createVideo({ commit }, video) {
       let response = await Api().post('/videos', video)
       let savedVideo = response.data;
-      // console.log("Saved video:")
-      // console.log(savedVideo)
 
       commit('ADD_VIDEO', savedVideo)
       commit('UPDATE_TAGS', savedVideo)
@@ -127,11 +104,12 @@ export default new Vuex.Store({
       let likeVideo = video
       likeVideo.like = !likeVideo.like
       await Api().patch(`/videos/${video._id}`, likeVideo)
+
       commit('LIKE_VIDEO', likeVideo)
     },
     async editVideo({ commit }, video) {
-
       await Api().patch(`/videos/${video._id}`, video)
+
       commit('EDIT_VIDEO', video)
       commit('UPDATE_TAGS', video)
     },
@@ -148,6 +126,7 @@ export default new Vuex.Store({
       }
       await Api().delete(`/videos/${delVideo._id}`)
       delVideo.tagIds = []
+
       commit('DELETE_VIDEO', delVideo._id)
       commit('UPDATE_TAGS', delVideo)
     }

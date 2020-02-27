@@ -73,27 +73,20 @@ export default {
   },
   methods: {
     ...mapActions(["likeVideo"])
-    // checkout: function(v) {
-    //   console.log("Video in VideoListVideo component:");
-    //   console.log(v);
-    // }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-// html {
-//   overflow-y: auto;
-// }
+
 .active {
   border-radius: 5em !important;
 }
 .v-card__text,
 .v-card__title {
-  word-break: normal !important; /* maybe !important  */
+  word-break: normal !important;
 }
 .rounded-card {
-  // border: 1px solid #7dbd81;
   cursor: default !important;
   border-radius: 1em !important;
 }
@@ -102,68 +95,4 @@ export default {
   border-radius: 1em;
 }
 
-// .videos-box {
-//   //   cursor: default;
-//   //   // user-select: none;
-//   //   color: rgba(10, 36, 19, 0.904);
-//   //   background-color: #f7fff8;
-//   //   border: 0.1em solid rgba(79, 168, 109, 0.671);
-//   //   border-radius: 1em;
-//   //   margin: 1em;
-//   //   text-align: left;
-//   //   display: grid;
-//   //   grid-template-columns: 25% 75%;
-//   //   grid-template-rows: 80% 20%;
-
-//   // img {
-//   //   margin: 1em 0 0.5em 1em;
-//   //   max-width: 100%;
-//   //   padding: 0.4em;
-//   //   box-shadow: 0 0 0.3em 0.05em rgba(7, 104, 40, 0.733);
-//   //   border-radius: 1em;
-//   // }
-//   //   .description {
-//   //     margin-top: 2em;
-//   //     grid-column-start: 2;
-//   //     grid-column-end: 3;
-//   //     grid-row-start: 1;
-//   //     grid-row-end: 2;
-//   //     margin-left: 3em;
-//   //   }
-//   //   .tags {
-//   //     grid-column-start: 2;
-//   //     grid-column-end: 3;
-//   //     grid-row-start: 2;
-//   //     grid-row-end: 3;
-//   //     margin-left: 3em;
-//   //   }
-//   //   .tag {
-//   //     display: inline-block;
-
-//   //     /*button {
-//   //       color: rgba(10, 36, 19, 0.904);
-//   //       padding: 0 0.2em 0 0.2em;
-//   //       background-color: #ddfae0;
-//   //       margin: 0.2em;
-//   //       box-shadow: 0 0 0.2em 0 rgba(23, 214, 17, 0.5);
-//   //       border-radius: 0.6em;
-//   //       border: 1px groove rgba(79, 168, 109, 0.671);
-
-//   //       &:focus {
-//   //         outline: none;
-//   //       }
-//   //       &:active {
-//   //         background-color: #a5dbaa;
-//   //       }
-//   //     }*/
-//   //   }
-//   //   a {
-//   //     grid-column-start: 1;
-//   //     grid-column-end: 2;
-//   //     grid-row-start: 1;
-//   //     grid-row-end: 3;
-//   //     color: #2c5031;
-//   //     text-decoration: none;
-//   //   }
-// }
 </style>

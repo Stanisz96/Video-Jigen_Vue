@@ -7,7 +7,6 @@
       </div>
     </div>
   </div>
-  <!--  -->
 </template>
 
 <script>
@@ -26,8 +25,6 @@ export default {
       return this.getTag(this.$route.params.id);
     },
     videosOnTag() {
-      // console.log(`Videos with ${this.tag.name} tag`);
-      // console.log(this.tag.videosId);
       return this.videos.filter(v => this.tag.videosId.includes(v._id));
     }
   }

@@ -39,13 +39,9 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 import { mdiHeart, mdiHeartOutline } from "@mdi/js";
-// import Api from "@/services/api";
 
 export default {
   name: "SingleVideo",
-  mounted() {
-    //this.loaded = true;
-  },
   computed: {
     ...mapState(["videos", "likedVideos"]),
     ...mapGetters(["getTag"]),
@@ -87,45 +83,4 @@ export default {
     border-radius: 1em;
   }
 }
-
-// .video-container {
-//   // background-color: #f7fff8;
-//   //border: 0.1em solid rgba(79, 168, 109, 0.671);
-//   //border-radius: 1em;
-//   //text-align: center;
-//   // .video-box {
-//   //   margin: 1em;
-//   //   iframe {
-//   //     position: relative;
-//   //     height: 25em;
-//   //     width: 60%;
-
-//   //     padding: 0.3em;
-//   //     box-shadow: 0 0 0.2em 0.1em rgba(7, 104, 40, 0.733);
-//   //     border-radius: 1em;
-//   //     //scroll-behavior: unset;
-//   //   }
-//   //   .video-description {
-//   //     max-width: 70%;
-//   //     display: inline-block;
-//   //   }
-//   //   .tag {
-//   //     display: inline-block;
-
-//   //     button {
-//   //       background-color: #ddfae0;
-//   //       margin: 0.2em;
-//   //       box-shadow: 0 0 0.2em 0 rgba(23, 214, 17, 0.5);
-//   //       border-radius: 0.6em;
-//   //       border: 1px groove rgba(79, 168, 109, 0.671);
-//   //       &:focus {
-//   //         outline: none;
-//   //       }
-//   //       &:active {
-//   //         background-color: #a5dbaa;
-//   //       }
-//   //     }
-//   //   }
-//   // }
-// }
 </style>

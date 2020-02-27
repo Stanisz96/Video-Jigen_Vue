@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
-//import colors from 'vuetify/lib/util/colors'
+
 
 
 Vue.use(Vuetify);
@@ -34,12 +34,7 @@ export default new Vuetify({
 });
 
 
-
-
-
-
-
-        //       d: "#5eb56f",
+  //       d: "#5eb56f",
   //       md: "#a1e3a6",
   //       ml: "#e1fae3",
   //       l: "#e1fae6",
