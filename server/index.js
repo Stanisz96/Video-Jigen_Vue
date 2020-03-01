@@ -2,6 +2,7 @@ const cors = require('cors')
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
+const helmet = require('helmet')
 
 mongoose.connect('mongodb+srv://user1:pass1@jigencluster-qypzc.mongodb.net/test?retryWrites=true&w=majority', {
   useUnifiedTopology: true,
@@ -15,6 +16,7 @@ db.on('error', (error) => console.error(error))
 db.once('open', () => console.log('Connected to Database'))
 
 // Middleware
+app.use(helmet)
 app.use(express.json())
 app.use(cors())
 
