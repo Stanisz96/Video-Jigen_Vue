@@ -1,5 +1,5 @@
 <template>
-  <v-card max-width="300" hover color="#e1fae3" class="rounded-card" v-if="active">
+  <v-card max-width="300" hover color="#d3f8d6" class="rounded-card" v-if="active">
     <div class="ma-1">
       <router-link :to="{ name: 'single-video', params: { id: video._id} }">
         <v-img :src="video.thumbnail" alt="thumbnail" class="img-card"></v-img>
@@ -45,7 +45,7 @@
       </v-expand-transition>
     </div>
   </v-card>
-  <v-card v-else width="300" hover color="#e1fae3" class="rounded-card pa-2">
+  <v-card v-else width="300" hover color="#d3f8d6" class="rounded-card pa-2">
     <div class="ma-1">
       <v-img :src="video.thumbnail" alt="thumbnail" class="img-card"></v-img>
       <v-card-title class="flex-wrap pa-1">{{ video.name }}</v-card-title>

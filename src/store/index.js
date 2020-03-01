@@ -12,7 +12,9 @@ Vue.use(VueYoutube)
 export default new Vuex.Store({
   state: {
     videos: [],
-    tags: []
+    tags: [],
+    users: [],
+    currentUser: {}
   },
   mutations: {
     // SET STATE OBJECTS
@@ -22,7 +24,15 @@ export default new Vuex.Store({
     SET_TAGS(state, tags) {
       state.tags = tags
     },
+    SET_USERS(state, users) {
+      state.users = users;
+    },
+    SET_CURRENT_USER(state, user) {
+      state.currentUser = user
+      Cookies.set('currentUser', user)
+      //window.localStorage.setItem('user', JSON.stringify(user))
 
+    },
     // ADD TO STATE OBJECTS
     ADD_VIDEO(state, video) {
       let videos = state.videos.concat(video)
@@ -66,7 +76,12 @@ export default new Vuex.Store({
           v = video
         }
       })
-
+    },
+    LOGOUT_USER(state) {
+      state.currentUser = {}
+      Cookies.remove('currentUser')
+      //Cookies.set("vuex", state)
+      //window.localStorage.removeItem("user")
     }
   },
   actions: {
@@ -81,6 +96,17 @@ export default new Vuex.Store({
       let tags = response.data
 
       commit('SET_TAGS', tags)
+    },
+    async loadUsers({ commit }) {
+      let response = await Api().get("/users")
+      let users = response.data
+
+      commit('SET_USERS', users)
+    },
+    async loadCurrentUser({ commit }) {
+      if (Cookies.get('currentUser') != null) {
+        commit('SET_CURRENT_USER', Cookies.getJSON('currentUser'))
+      }
     },
 
     // Create Data
@@ -114,6 +140,20 @@ export default new Vuex.Store({
       commit('EDIT_VIDEO', video)
       commit('UPDATE_TAGS', video)
     },
+    logoutUser({ commit }) {
+      commit("LOGOUT_USER")
+    },
+    async loginUser({ commit }, loginInfo) {
+      try {
+        let response = await Api().post('/sessions', loginInfo)
+        let user = response.data[0]
+        commit("SET_CURRENT_USER", user)
+        console.log(user)
+        return user
+      } catch (error) {
+        return { error: "something wrong with name or pass" }
+      }
+    },
 
     // Delete Data
     async deleteVideo({ commit, state }, video) {
@@ -141,8 +181,16 @@ export default new Vuex.Store({
   },
   plugins: [
     createPersistedState({
-      getState: (key) => Cookies.getJSON(key),
-      setState: (key, state) => Cookies.set(key, state, { expires: 3, secure: false })
+      storage: {
+        getItem: key => Cookies.getJSON(key),
+        // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
+        setItem: (key, value) => {
+          value = JSON.parse(value)
+          delete value.currentUser
+          Cookies.set(key, value)
+        },
+        removeItem: key => Cookies.remove(key)
+      }
     })
   ]
 })

@@ -20,7 +20,7 @@ router.get('/:id', getTag, (req, res) => {
 router.post('/', async (req, res) => {
   const tag = new Tag({
     name: req.body.name,
-    videosId: req.body.description,
+    videosId: req.body.videosId,
   })
   try {
     const newTag = await tag.save()

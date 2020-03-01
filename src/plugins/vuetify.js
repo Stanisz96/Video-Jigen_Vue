@@ -1,11 +1,14 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
-
+import VApp from 'vuetify/es5/components/VApp'
 
 
 Vue.use(Vuetify);
 
 export default new Vuetify({
+  components: {
+    VApp
+  },
   theme: {
     dark: false,
     themes: {

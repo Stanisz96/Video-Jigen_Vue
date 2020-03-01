@@ -7,7 +7,15 @@
       <v-btn href="#/admin/videos" text large>Admin</v-btn>
 
       <v-spacer></v-spacer>
-      <v-btn href="/" text>
+      <div v-if="currentUser.name">
+        <v-btn href="/" text>
+          <span>{{currentUser.name}}</span>
+        </v-btn>
+        <v-btn @click="logoutUser" text>
+          <span>Logout</span>
+        </v-btn>
+      </div>
+      <v-btn v-else href="/" text>
         <span>Login</span>
       </v-btn>
     </v-app-bar>
@@ -19,17 +27,20 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "App",
-
+  computed: {
+    ...mapState(["currentUser"])
+  },
   created() {
     this.loadVideos();
     this.loadTags();
+    this.loadCurrentUser();
   },
   methods: {
-    ...mapActions(["loadVideos", "loadTags"])
+    ...mapActions(["loadVideos", "loadTags", "logoutUser", "loadCurrentUser"])
   },
   components: {},
   data: () => ({
