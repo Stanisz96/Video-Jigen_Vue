@@ -3,6 +3,9 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const helmet = require('helmet')
+const morgan = require('morgan')
+
+const middlewares = require('./middlewares')
 
 mongoose.connect('mongodb+srv://user1:pass1@jigencluster-qypzc.mongodb.net/test?retryWrites=true&w=majority', {
   useUnifiedTopology: true,
@@ -16,7 +19,8 @@ db.on('error', (error) => console.error(error))
 db.once('open', () => console.log('Connected to Database'))
 
 // Middleware
-app.use(helmet)
+app.use(helmet())
+app.use(morgan('common'))
 app.use(express.json())
 app.use(cors())
 
@@ -32,6 +36,9 @@ app.use('/api/tags', tagsRouter)
 app.use('/api/users', userRouter)
 app.use('/api/sessions', sessionRouter)
 
+
+app.use(middlewares.notFound)
+app.use(middlewares.errorHandler)
 
 app.listen(3000, () => console.log('Server Started'))
 
