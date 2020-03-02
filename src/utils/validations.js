@@ -12,17 +12,21 @@ let addVideoRules = {
   ]
 }
 
-let loginRules = {
+let authRules = {
   name: [
     v => !!v || "Name is required"
   ],
   password: [
     v => !!v || "Password is required",
     v => v.length >= 3 || "Password required min 3 characters",
+  ],
+  email: [
+    v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || "Email is invalid"
   ]
 }
 
+
 module.exports = {
   addVideoRules,
-  loginRules
+  authRules
 }

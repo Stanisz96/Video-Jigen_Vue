@@ -1,13 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Home from '../views/Home.vue'
-// import Videos from '../views/Videos.vue'
-// import SingleVideo from '../views/SingleVideo.vue'
-// import TagVideoList from '../views/TagVideoList.vue'
-// import AddVideo from '../views/AddVideo.vue'
-// import AdminVideoList from '../views/AdminVideoList.vue'
-// import AdminVideoEdit from '../views/AdminVideoEdit.vue'
-// import AdminUserList from '../views/AdminUserList.vue'
+import Cookies from 'js-cookie'
 
 Vue.use(VueRouter)
 
@@ -32,6 +25,11 @@ const routes = [
     component: loadView("UserLogin")
   },
   {
+    path: '/register',
+    name: 'user-register',
+    component: loadView("UserRegistration")
+  },
+  {
     path: '/admin/users',
     name: 'admin-user-list',
     component: loadView("AdminUserList")
@@ -39,7 +37,17 @@ const routes = [
   {
     path: '/admin/videos',
     name: "admin-video-list",
-    component: loadView("AdminVideoList")
+    component: loadView("AdminVideoList"),
+    beforeEnter(to, from, next) {
+      let currentUser = Cookies.getJSON('currentUser')
+      if (currentUser && currentUser.name) {
+        next()
+      } else {
+        console.log(from)
+        alert('You are not logged!')
+        next(from.path)
+      }
+    }
   },
   {
     path: '/admin/video/:id/edit',

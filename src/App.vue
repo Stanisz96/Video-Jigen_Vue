@@ -15,9 +15,14 @@
           <span>Logout</span>
         </v-btn>
       </div>
-      <v-btn v-else href="#/login" text>
-        <span>Login</span>
-      </v-btn>
+      <div v-else>
+        <v-btn href="#/login" text>
+          <span>Login</span>
+        </v-btn>
+        <v-btn href="#/register" text>
+          <span>Sign In</span>
+        </v-btn>
+      </div>
     </v-app-bar>
 
     <v-content>

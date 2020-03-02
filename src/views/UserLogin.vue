@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+    <div class="display-3 font-weight-regular my-6 d-flex justify-center">Login</div>
     <v-row>
       <v-spacer />
       <v-col>

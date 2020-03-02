@@ -1,12 +1,18 @@
 <template>
   <v-form v-model="valid">
-    <v-text-field v-model="userInfo.name" label="Name" :rules="loginRules.name"></v-text-field>
+    <v-text-field v-model="userInfo.name" label="Name" :rules="authRules.name"></v-text-field>
+    <v-text-field
+      v-if="submitButton=='Register'"
+      v-model="userInfo.email"
+      label="E-mail"
+      :rules="authRules.email"
+    ></v-text-field>
     <v-text-field
       v-model="userInfo.password"
       label="Password"
       :type="showPass ? 'text' : 'password'"
       :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-      :rules="loginRules.password"
+      :rules="authRules.password"
       @click:append="showPass =!showPass"
       counter
     ></v-text-field>
@@ -15,17 +21,18 @@
 </template>
 
 <script>
-import { loginRules } from "@/utils/validations";
+import { authRules } from "@/utils/validations";
 
 export default {
   data() {
     return {
       valid: false,
       showPass: false,
-      loginRules,
+      authRules,
       userInfo: {
         name: "",
-        password: ""
+        password: "",
+        email: ""
       }
     };
   },

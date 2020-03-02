@@ -30,8 +30,6 @@ export default new Vuex.Store({
     SET_CURRENT_USER(state, user) {
       state.currentUser = user
       Cookies.set('currentUser', user)
-      //window.localStorage.setItem('user', JSON.stringify(user))
-
     },
     // ADD TO STATE OBJECTS
     ADD_VIDEO(state, video) {
@@ -117,6 +115,17 @@ export default new Vuex.Store({
       commit('ADD_VIDEO', savedVideo)
       commit('UPDATE_TAGS', savedVideo)
       return savedVideo;
+    },
+    async regUser({ commit }, regInfo) {
+      try {
+        let response = await Api().post('/users', regInfo)
+        let user = response.data
+        console.log(user)
+        commit("SET_CURRENT_USER", user)
+        return user
+      } catch (error) {
+        return { error: "ERROR! You have not completed your registration" }
+      }
     },
 
     // Update Data
