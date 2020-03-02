@@ -8,28 +8,25 @@
           <v-col cols="12 pa-2" sm="4" md="5" lg="5">
             <v-text-field
               v-model="video.name"
-              :rules="titleRules"
+              :rules="addVideoRules.title"
               :counter="50"
               label="Title"
               required
-              autocomplete="off"
             ></v-text-field>
             <v-textarea
               v-model="video.description"
-              :rules="descriptionRules"
+              :rules="addVideoRules.description"
               :counter="400"
               label="Description"
               required
-              autocomplete="off"
             ></v-textarea>
             <v-text-field
               @change="getThumbnailUrl"
               v-model="video.videoUrl"
-              :rules="urlRules"
+              :rules="addVideoRules.url"
               :counter="100"
               label="video Url"
               required
-              autocomplete="off"
             ></v-text-field>
             <br />
             <v-combobox
@@ -74,6 +71,7 @@
 import { mdiHeart, mdiHeartOutline } from "@mdi/js";
 import { mapActions, mapState } from "vuex";
 import VideoListVideo from "../components/VideoListVideo.vue";
+import { addVideoRules } from "@/utils/validations";
 
 export default {
   name: "AddVideo",
@@ -128,17 +126,18 @@ export default {
       valid: false,
       liked: false,
       show: true,
-      titleRules: [
-        v => !!v || "Title is required",
-        v => v.length <= 50 || "Title must be less than 50 characters"
-      ],
-      descriptionRules: [
-        v => v.length <= 400 || "Descripion must be less than 200 characters"
-      ],
-      urlRules: [
-        v => v.length <= 100 || "Title must be less than 50 characters",
-        v => /.+v=.+/.test(v) || "Path to video is invalid"
-      ],
+      addVideoRules,
+      // titleRules: [
+      //   v => !!v || "Title is required",
+      //   v => v.length <= 50 || "Title must be less than 50 characters"
+      // ],
+      // descriptionRules: [
+      //   v => v.length <= 400 || "Descripion must be less than 200 characters"
+      // ],
+      // urlRules: [
+      //   v => v.length <= 100 || "Title must be less than 50 characters",
+      //   v => /.+v=.+/.test(v) || "Path to video is invalid"
+      // ],
       search: null,
       icons: {
         mdiHeart,
