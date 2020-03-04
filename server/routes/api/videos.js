@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const middle = require('../../middlewares')
 const Video = require('../../models/video')
 
 // Get videos
@@ -7,17 +8,18 @@ router.get('/', async (req, res) => {
   try {
     const videos = await Video.find()
     res.json(videos)
+
   } catch (error) {
     res.status(500).json({ message: error.message })
 
   }
 })
 // Get one video
-router.get('/:id', getVideo, (req, res) => {
+router.get('/:id', middle.getVideo, (req, res) => {
   res.json(res.video)
 })
 // Create video
-router.post('/', async (req, res) => {
+router.post('/', middle.checkUserAuth, async (req, res) => {
   const video = new Video({
     name: req.body.name,
     description: req.body.description,
@@ -33,7 +35,7 @@ router.post('/', async (req, res) => {
   }
 })
 // Update video
-router.patch('/:id', getVideo, async (req, res) => {
+router.patch('/:id', middle.checkUserAuth, middle.getVideo, async (req, res) => {
   if (req.body.name != null) res.video.name = req.body.name
   if (req.body.description != null) res.video.description = req.body.description
   if (req.body.thumbnail != null) res.video.thumbnail = req.body.thumbnail
@@ -50,7 +52,7 @@ router.patch('/:id', getVideo, async (req, res) => {
   }
 })
 // Delete video
-router.delete('/:id', getVideo, async (req, res) => {
+router.delete('/:id', middle.checkUserAuth, middle.getVideo, async (req, res) => {
   try {
     await res.video.remove()
     res.json({ message: `Deleted video: ${res.video.name}` })
@@ -58,26 +60,5 @@ router.delete('/:id', getVideo, async (req, res) => {
     res.status(500).json({ message: error.message })
   }
 })
-
-
-// Middleware
-
-async function getVideo(req, res, next) {
-  let video
-  try {
-    video = await Video.findById(req.params.id)
-    if (video == null) {
-      return res.status(404).json({ message: 'Cannot find video' })
-    }
-  } catch (error) {
-    return res.status(500).json({ message: error.message })
-  }
-
-  res.video = video
-  next()
-}
-
-
-
 
 module.exports = router

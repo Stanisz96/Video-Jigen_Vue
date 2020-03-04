@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const middlewares = require('../../middlewares')
 const User = require('../../models/user')
 
 // Get users
@@ -13,7 +14,7 @@ router.get('/', async (req, res) => {
   }
 })
 // Get one user
-router.get('/:id', getUser, (req, res) => {
+router.get('/:id', middlewares.getUser, (req, res) => {
   res.json(res.user)
 })
 // Create user
@@ -21,6 +22,7 @@ router.post('/', async (req, res) => {
   const user = new User({
     name: req.body.name,
     email: req.body.email,
+    admin: req.body.admin
   })
   try {
     const newUser = await user.save()
@@ -30,9 +32,11 @@ router.post('/', async (req, res) => {
   }
 })
 // Update user
-router.patch('/:id', getUser, async (req, res) => {
+router.patch('/:id', middlewares.getUser, async (req, res) => {
   if (req.body.name != null) res.user.name = req.body.name
   if (req.body.email != null) res.user.email = req.body.email
+  if (req.body.admin != null) res.user.admin = req.body.admin
+  if (req.body.token != null) res.user.token = req.body.token
 
   try {
     const updatedUser = await res.user.save()
@@ -43,7 +47,7 @@ router.patch('/:id', getUser, async (req, res) => {
   }
 })
 // Delete user
-router.delete('/:id', getUser, async (req, res) => {
+router.delete('/:id', middlewares.getUser, async (req, res) => {
   try {
     await res.user.remove()
     res.json({ message: `Deleted user: ${res.user.name}` })
@@ -51,26 +55,5 @@ router.delete('/:id', getUser, async (req, res) => {
     res.status(500).json({ message: error.message })
   }
 })
-
-
-// Middleware
-
-async function getUser(req, res, next) {
-  let user
-  try {
-    user = await User.findById(req.params.id)
-    if (user == null) {
-      return res.status(404).json({ message: 'Cannot find user' })
-    }
-  } catch (error) {
-    return res.status(500).json({ message: error.message })
-  }
-
-  res.user = user
-  next()
-}
-
-
-
 
 module.exports = router

@@ -1,3 +1,4 @@
+const uuid = require('uuid')
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
@@ -8,6 +9,16 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true
+  },
+  admin: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  token: {
+    type: String,
+    required: true,
+    default: uuid.v4()
   },
   createdDate: {
     type: Date,

@@ -3,8 +3,8 @@
     <v-app-bar app color="#5eb56f">
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-      <v-btn href="#/videos" text x-large>Home</v-btn>
-      <v-btn href="#/admin/videos" text large>Admin</v-btn>
+      <v-btn href="#/videos" text x-large class="text--text">Home</v-btn>
+      <v-btn href="#/admin" v-if="currentUser.admin" text large class="text--text">Admin</v-btn>
 
       <v-spacer></v-spacer>
       <div v-if="currentUser.name">
@@ -23,6 +23,10 @@
           <span>Sign In</span>
         </v-btn>
       </div>
+
+      <template v-slot:extension v-if="checkPath">
+        <TabsExtension :RouteName="currentRouteName" color="#5eb56f" />
+      </template>
     </v-app-bar>
 
     <v-content>
@@ -33,11 +37,15 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import TabsExtension from "@/components/TabsExtension.vue";
 
 export default {
   name: "App",
   computed: {
-    ...mapState(["currentUser"])
+    ...mapState(["currentUser"]),
+    currentRouteName() {
+      return this.$route.name;
+    }
   },
   created() {
     this.loadVideos();
@@ -47,12 +55,20 @@ export default {
   methods: {
     ...mapActions(["loadVideos", "loadTags", "logoutUser", "loadCurrentUser"])
   },
-  components: {},
+  components: {
+    TabsExtension
+  },
   data: () => ({
     bgColor: {
       background: "#fafffb"
+    },
+    checkPath: false
+  }),
+  watch: {
+    currentRouteName: function(name) {
+      this.checkPath = /^admin?/.test(name);
     }
-  })
+  }
 };
 </script>
 

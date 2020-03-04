@@ -20,6 +20,39 @@ const routes = [
     component: loadView("About")
   },
   {
+    path: '/admin',
+    name: 'admin',
+    component: loadView("Admin"),
+    beforeEnter(to, from, next) {
+      let currentUser = Cookies.getJSON('currentUser')
+      if (currentUser && currentUser.admin) {
+        next()
+      } else {
+        console.log(from)
+        alert('You are not logged!')
+        next(from.path)
+      }
+    },
+    children: [
+      {
+        path: 'videos',
+        name: "admin-video-list",
+        component: loadView("AdminVideoList")
+      },
+      {
+        path: 'users',
+        name: 'admin-user-list',
+        component: loadView("AdminUserList")
+      },
+      {
+        path: 'video/:id/edit',
+        name: 'admin-video-edit',
+        component: loadView("AdminVideoEdit"),
+        params: true
+      }
+    ]
+  },
+  {
     path: '/login',
     name: 'user-login',
     component: loadView("UserLogin")
@@ -28,32 +61,6 @@ const routes = [
     path: '/register',
     name: 'user-register',
     component: loadView("UserRegistration")
-  },
-  {
-    path: '/admin/users',
-    name: 'admin-user-list',
-    component: loadView("AdminUserList")
-  },
-  {
-    path: '/admin/videos',
-    name: "admin-video-list",
-    component: loadView("AdminVideoList"),
-    beforeEnter(to, from, next) {
-      let currentUser = Cookies.getJSON('currentUser')
-      if (currentUser && currentUser.name) {
-        next()
-      } else {
-        console.log(from)
-        alert('You are not logged!')
-        next(from.path)
-      }
-    }
-  },
-  {
-    path: '/admin/video/:id/edit',
-    name: 'admin-video-edit',
-    component: loadView("AdminVideoEdit"),
-    params: true
   },
   {
     path: '/videos',
