@@ -64,6 +64,20 @@ async function getUser(req, res, next) {
   next()
 }
 
+async function getUserByName(req, res, next) {
+  let user
+  try {
+    user = await User.findOne({ name: req.body.name })
+    if (user == null) {
+      return res.status(404).json({ message: 'Cannot find user' })
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+  res.user = user
+  next()
+}
+
 async function getTag(req, res, next) {
   let tag
   try {
@@ -86,5 +100,6 @@ module.exports = {
   getVideo,
   getUser,
   getTag,
-  checkUserAuth
+  checkUserAuth,
+  getUserByName
 }

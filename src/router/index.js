@@ -29,7 +29,7 @@ const routes = [
         next()
       } else {
         console.log(from)
-        alert('You are not logged!')
+        alert('You are not in admin mode!')
         next(from.path)
       }
     },

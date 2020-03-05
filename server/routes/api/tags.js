@@ -54,10 +54,4 @@ router.delete('/:id', middlewares.getTag, async (req, res) => {
 })
 
 
-// Middleware
-
-
-
-
-
 module.exports = router
