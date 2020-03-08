@@ -10,10 +10,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import VideoListVideo from "../components/VideoListVideo.vue";
 
 export default {
+  created() {
+    this.loadVideos();
+    this.loadTags();
+  },
   components: {
     VideoListVideo
   },
@@ -22,6 +26,9 @@ export default {
   },
   data() {
     return {};
+  },
+  methods: {
+    ...mapActions(["loadVideos", "loadTags"])
   }
 };
 </script>

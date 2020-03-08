@@ -1,6 +1,9 @@
+const Cookies = require('js-cookie')
 const Video = require('./models/video')
 const User = require('./models/user')
 const Tag = require('./models/tag')
+const jwt = require('jsonwebtoken')
+
 
 
 // Find user by token
@@ -68,6 +71,8 @@ async function getUserByName(req, res, next) {
   let user
   try {
     user = await User.findOne({ name: req.body.name })
+    userJson = await User.findOne({ name: req.body.name }).lean()
+    delete userJson.token
     if (user == null) {
       return res.status(404).json({ message: 'Cannot find user' })
     }
@@ -75,6 +80,7 @@ async function getUserByName(req, res, next) {
     return res.status(500).json({ message: error.message })
   }
   res.user = user
+  res.userJson = userJson
   next()
 }
 
@@ -93,6 +99,18 @@ async function getTag(req, res, next) {
   next()
 }
 
+function authenticateToken(req, res, next) {
+  let authHeader = req.headers.authorization
+  const authToken = authHeader.split(' ')[1]
+  //console.log(authToken)
+  if (authToken == null) return res.sendStatus(401)
+  jwt.verify(authToken, process.env.VUE_APP_ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403)
+    res.user = user
+    next()
+  })
+
+}
 
 module.exports = {
   notFound,
@@ -101,5 +119,6 @@ module.exports = {
   getUser,
   getTag,
   checkUserAuth,
-  getUserByName
+  getUserByName,
+  authenticateToken
 }

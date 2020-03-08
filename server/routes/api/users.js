@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const middlewares = require('../../middlewares')
 const User = require('../../models/user')
-const bcrypt = require('bcryptjs')
+
 
 // Get users
 router.get('/', async (req, res) => {
@@ -16,7 +16,12 @@ router.get('/', async (req, res) => {
   }
 })
 // Get one user
-router.get('/:id', middlewares.getUser, (req, res) => {
+// router.get('/:id', middlewares.getUser, (req, res) => {
+//   res.json(res.user)
+// })
+// Login user
+router.get('/login', middlewares.authenticateToken, (req, res) => {
+
   res.json(res.user)
 })
 // Create user

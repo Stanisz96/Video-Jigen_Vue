@@ -4,26 +4,17 @@ const router = express.Router()
 const middlewares = require('../../middlewares')
 
 
-
-router.post('/', middlewares.getUserByName, async function (req, res) {
+router.post('/', middlewares.authenticateToken, async function (req, res) {
   //let json = req.body
-  let user = res.user
+  let user = req.user
+  //console.log(user)
   try {
-    if (await bcrypt.compare(req.body.password, user.password)) {
-      res.json(user)
-    } else {
-      res.status(400).json({ message: "Wrong name or password" })
-    }
+    res.json(user)
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
 
 })
-
-
-
-// Middleware
-
 
 
 module.exports = router

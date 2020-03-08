@@ -4,7 +4,7 @@ const middle = require('../../middlewares')
 const Video = require('../../models/video')
 
 // Get videos
-router.get('/', async (req, res) => {
+router.get('/', middle.authenticateToken, async (req, res) => {
   try {
     const videos = await Video.find()
     res.json(videos)

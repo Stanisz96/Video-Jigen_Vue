@@ -2,8 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VueYoutube from "vue-youtube";
 import Api from '@/services/api'
+import Tools from '@/utils/tools'
 import createPersistedState from 'vuex-persistedstate'
 import Cookies from 'js-cookie'
+import jwt from 'jsonwebtoken'
 
 
 Vue.use(Vuex)
@@ -29,7 +31,7 @@ export default new Vuex.Store({
     },
     SET_CURRENT_USER(state, user) {
       state.currentUser = user
-      Cookies.set('currentUser', user)
+      //Cookies.set('currentUser', user)
     },
     // ADD TO STATE OBJECTS
     ADD_VIDEO(state, video) {
@@ -77,7 +79,9 @@ export default new Vuex.Store({
     },
     LOGOUT_USER(state) {
       state.currentUser = {}
-      Cookies.remove('currentUser')
+      Cookies.remove('UAT')
+      Cookies.remove('URT')
+      Cookies.remove('vuex')
       //Cookies.set("vuex", state)
       //window.localStorage.removeItem("user")
     }
@@ -85,9 +89,29 @@ export default new Vuex.Store({
   actions: {
     // Load Data
     async loadVideos({ commit }) {
-      let response = await Api().get("/videos");
-      let videos = response.data
-      commit('SET_VIDEOS', videos)
+      let userToken = { accessToken: Cookies.get('UAT'), refreshToken: Cookies.get('URT') }
+      let message = Tools.checkAndSetToken(jwt, userToken.accessToken, userToken.refreshToken, Api, Cookies)
+
+      // console.log(message)
+
+      // let response = await Api().get("/videos");
+      // let videos = response.data
+      // commit('SET_VIDEOS', videos)
+      message.then(async (result) => {
+        if (result.name == 'OK') {
+          let response = await Api().get("/videos");
+          let videos = response.data
+          commit('SET_VIDEOS', videos)
+        } else {
+          //console.log(result)
+          //console.log('User is not logged in')
+        }
+      })
+
+
+      // let response = await Api().get("/videos");
+      // let videos = response.data
+      // commit('SET_VIDEOS', videos)
     },
     async loadTags({ commit }) {
       let response = await Api().get("/tags");
@@ -102,9 +126,29 @@ export default new Vuex.Store({
       commit('SET_USERS', users)
     },
     async loadCurrentUser({ commit }) {
-      if (Cookies.get('currentUser') != null) {
-        commit('SET_CURRENT_USER', Cookies.getJSON('currentUser'))
-      }
+      let userToken = { accessToken: Cookies.get('UAT'), refreshToken: Cookies.get('URT') }
+      let message = Tools.checkAndSetToken(jwt, userToken.accessToken, userToken.refreshToken, Api, Cookies)
+      message.then(async (result) => {
+        if (result.name == 'OK') {
+          let loginRes = await Api().get('/users/login')
+          let user = loginRes.data
+          commit('SET_CURRENT_USER', user)
+        }
+      })
+
+      // if (userToken == null) throw "There is on user to load"
+      // try {
+      //   let tokenRes = await Api().post('/auth/token', { token: userToken.refreshToken })
+      //   let accessToken = tokenRes.data.accessToken
+      //   Cookies.set('UAT', accessToken)
+      //   let loginRes = await Api().get('/users/login')
+      //   let user = loginRes.data
+      //   commit('SET_CURRENT_USER', user)
+      // } catch (error2) {
+      //   console.log('something wrong')
+      // }
+
+
     },
 
     // Create Data
@@ -120,7 +164,7 @@ export default new Vuex.Store({
       try {
         let response = await Api().post('/users', regInfo)
         let user = response.data
-        console.log(user)
+        //console.log("regUser")
         commit("SET_CURRENT_USER", user)
         return user
       } catch (error) {
@@ -149,15 +193,22 @@ export default new Vuex.Store({
       commit('EDIT_VIDEO', video)
       commit('UPDATE_TAGS', video)
     },
-    logoutUser({ commit }) {
+    async logoutUser({ commit }) {
+      let URT = { token: Cookies.get('URT') }
+      await Api().post('/auth/logout', URT)
       commit("LOGOUT_USER")
     },
     async loginUser({ commit }, loginInfo) {
       try {
-        let response = await Api().post('/sessions', loginInfo)
+        let jwt = await Api().post('/auth/login', loginInfo)
+        Cookies.set('UAT', jwt.data.accessToken)
+        Cookies.set('URT', jwt.data.refreshToken)
+        let response = await Api().get('/users/login')
         let user = response.data
         commit("SET_CURRENT_USER", user)
-        console.log(user)
+        // Cookies.set('userToken', jwt.data.accessToken)
+        // let response = await Api().get('/users/login')
+
         return user
       } catch (error) {
         return { error: "something wrong with name or pass" }

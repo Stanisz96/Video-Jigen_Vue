@@ -48,9 +48,9 @@ export default {
     }
   },
   created() {
-    this.loadVideos();
-    this.loadTags();
     this.loadCurrentUser();
+    //this.loadVideos();
+    //this.loadTags();
   },
   methods: {
     ...mapActions(["loadVideos", "loadTags", "logoutUser", "loadCurrentUser"])

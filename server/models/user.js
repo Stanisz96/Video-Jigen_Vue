@@ -19,11 +19,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // token: {
-  //   type: String,
-  //   required: true,
-  //   default: uuid.v4()
-  // },
+  token: {
+    accessToken: {
+      type: String,
+    },
+    refreshToken: {
+      type: String,
+    }
+  },
   createdDate: {
     type: Date,
     required: true,
