@@ -91,21 +91,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["createVideo", "updateTags"]),
+    ...mapActions(["createVideo"]),
     getThumbnailUrl: function(event) {
       this.video.thumbnail = "https://img.youtube.com/vi/".concat(
         event.split("v=")[1].split("&")[0],
         "/0.jpg"
       );
     },
-    writeInConsole: function(val) {
-      console.log(val);
-    },
     async addVideo(video) {
       if (this.valid) {
-        let savedVideo = await this.createVideo(video);
-        this.updateTags(savedVideo);
-
+        await this.createVideo(video);
         this.$router.push({ name: "videos" });
       } else {
         alert("Invalid data!");
@@ -127,17 +122,6 @@ export default {
       liked: false,
       show: true,
       addVideoRules,
-      // titleRules: [
-      //   v => !!v || "Title is required",
-      //   v => v.length <= 50 || "Title must be less than 50 characters"
-      // ],
-      // descriptionRules: [
-      //   v => v.length <= 400 || "Descripion must be less than 200 characters"
-      // ],
-      // urlRules: [
-      //   v => v.length <= 100 || "Title must be less than 50 characters",
-      //   v => /.+v=.+/.test(v) || "Path to video is invalid"
-      // ],
       search: null,
       icons: {
         mdiHeart,
@@ -151,9 +135,6 @@ export default {
         this.$nextTick(() => this.tagModel.pop());
       }
       this.video.tagIds = val.map(tag => tag._id);
-    },
-    valid(x) {
-      console.log(x);
     }
   }
 };

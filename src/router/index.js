@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Cookies from 'js-cookie'
+import store from '../store/index.js'
 
 Vue.use(VueRouter)
 
@@ -24,7 +24,7 @@ const routes = [
     name: 'admin',
     component: loadView("Admin"),
     beforeEnter(to, from, next) {
-      let currentUser = Cookies.getJSON('currentUser')
+      let currentUser = store.state.currentUser
       if (currentUser && currentUser.admin) {
         next()
       } else {

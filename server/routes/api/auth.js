@@ -55,7 +55,7 @@ router.post('/login', middlewares.getUserByName, async function (req, res) {
 
 
 function generateAccessToken(userJson) {
-  return jwt.sign(userJson, process.env.VUE_APP_ACCESS_TOKEN_SECRET, { expiresIn: '30s' })
+  return jwt.sign(userJson, process.env.VUE_APP_ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
 }
 
 async function addRefreshToken(refreshToken) {

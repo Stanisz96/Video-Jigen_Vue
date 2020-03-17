@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 import UserAuthForm from "@/components/UserAuthForm";
 
 export default {
@@ -22,14 +22,22 @@ export default {
   data() {
     return {};
   },
+  computed: {
+    ...mapState(["users"])
+  },
+  created() {
+    this.loadUsers();
+  },
   methods: {
-    ...mapActions(["regUser"]),
+    ...mapActions(["loadUsers", "regUser", "loginUser"]),
     async reqRegisterUser(regInfo) {
-      let user = await this.regUser(regInfo);
-      if (user.error) {
-        alert(user.error);
+      let res = await this.regUser(regInfo);
+      if (res.error) {
+        alert(res.error);
       } else {
+        let user = await this.loginUser(regInfo);
         alert(`Welcome ${user.name}!`);
+        this.$router.push("/videos");
       }
     }
   }

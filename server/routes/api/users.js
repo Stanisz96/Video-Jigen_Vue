@@ -8,17 +8,13 @@ const User = require('../../models/user')
 router.get('/', async (req, res) => {
 
   try {
-    const users = await User.find()
+    const users = await User.find({}, { name: 1 })
     res.json(users)
   } catch (error) {
     res.status(500).json({ message: error.message })
 
   }
 })
-// Get one user
-// router.get('/:id', middlewares.getUser, (req, res) => {
-//   res.json(res.user)
-// })
 // Login user
 router.get('/login', middlewares.authenticateToken, (req, res) => {
 
@@ -33,10 +29,10 @@ router.post('/', async (req, res) => {
       email: req.body.email,
       password: req.body.password
     })
-    const newUser = await user.save(function (err) {
+    await user.save(function (err) {
       if (err) throw err;
     })
-    res.status(201).json(newUser)
+    res.sendStatus(201)
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

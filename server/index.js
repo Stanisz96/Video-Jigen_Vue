@@ -29,7 +29,6 @@ app.use(cors())
 const videosRouter = require('./routes/api/videos')
 const tagsRouter = require('./routes/api/tags')
 const userRouter = require('./routes/api/users')
-//const sessionRouter = require('./routes/api/sessions')
 const authRouter = require('./routes/api/auth')
 
 
@@ -37,7 +36,6 @@ const authRouter = require('./routes/api/auth')
 app.use('/api/videos', videosRouter)
 app.use('/api/tags', tagsRouter)
 app.use('/api/users', userRouter)
-//app.use('/api/sessions', sessionRouter)
 app.use('/api/auth', authRouter)
 
 

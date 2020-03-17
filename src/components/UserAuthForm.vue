@@ -22,8 +22,18 @@
 
 <script>
 import { authRules } from "@/utils/validations";
+import { mapState } from "vuex";
 
 export default {
+  computed: {
+    ...mapState(["users"])
+  },
+  mounted() {
+    if (this.submitButton == "Register") {
+      let uniqueName = v => this.unique(v) || "Username is already taken";
+      authRules.name[2] = uniqueName;
+    }
+  },
   data() {
     return {
       valid: false,
@@ -35,6 +45,19 @@ export default {
         email: ""
       }
     };
+  },
+  methods: {
+    unique(v) {
+      let bool;
+      for (let user of this.users) {
+        if (user.name == v) {
+          bool = false;
+          return bool;
+        }
+      }
+      bool = true;
+      return bool;
+    }
   },
   props: ["submitForm", "submitButton"]
 };

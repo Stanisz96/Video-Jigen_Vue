@@ -11,7 +11,7 @@ import jwt from 'jsonwebtoken'
 Vue.use(Vuex)
 Vue.use(VueYoutube)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     videos: [],
     tags: [],
@@ -31,7 +31,6 @@ export default new Vuex.Store({
     },
     SET_CURRENT_USER(state, user) {
       state.currentUser = user
-      //Cookies.set('currentUser', user)
     },
     // ADD TO STATE OBJECTS
     ADD_VIDEO(state, video) {
@@ -54,6 +53,7 @@ export default new Vuex.Store({
         if (videoTags.includes(tag._id)) {
           if (!tag.videosId.includes(videoId)) {
             tag.videosId.push(videoId)
+            console.log(`UPDATE_TAGS: ${tag.name}`)
           }
         } else {
           if (tag.videosId.includes(videoId)) {
@@ -82,8 +82,6 @@ export default new Vuex.Store({
       Cookies.remove('UAT')
       Cookies.remove('URT')
       Cookies.remove('vuex')
-      //Cookies.set("vuex", state)
-      //window.localStorage.removeItem("user")
     }
   },
   actions: {
@@ -91,27 +89,15 @@ export default new Vuex.Store({
     async loadVideos({ commit }) {
       let userToken = { accessToken: Cookies.get('UAT'), refreshToken: Cookies.get('URT') }
       let message = Tools.checkAndSetToken(jwt, userToken.accessToken, userToken.refreshToken, Api, Cookies)
-
-      // console.log(message)
-
-      // let response = await Api().get("/videos");
-      // let videos = response.data
-      // commit('SET_VIDEOS', videos)
       message.then(async (result) => {
         if (result.name == 'OK') {
           let response = await Api().get("/videos");
           let videos = response.data
           commit('SET_VIDEOS', videos)
         } else {
-          //console.log(result)
-          //console.log('User is not logged in')
+          console.log(result)
         }
       })
-
-
-      // let response = await Api().get("/videos");
-      // let videos = response.data
-      // commit('SET_VIDEOS', videos)
     },
     async loadTags({ commit }) {
       let response = await Api().get("/tags");
@@ -122,7 +108,6 @@ export default new Vuex.Store({
     async loadUsers({ commit }) {
       let response = await Api().get("/users")
       let users = response.data
-
       commit('SET_USERS', users)
     },
     async loadCurrentUser({ commit }) {
@@ -135,45 +120,43 @@ export default new Vuex.Store({
           commit('SET_CURRENT_USER', user)
         }
       })
-
-      // if (userToken == null) throw "There is on user to load"
-      // try {
-      //   let tokenRes = await Api().post('/auth/token', { token: userToken.refreshToken })
-      //   let accessToken = tokenRes.data.accessToken
-      //   Cookies.set('UAT', accessToken)
-      //   let loginRes = await Api().get('/users/login')
-      //   let user = loginRes.data
-      //   commit('SET_CURRENT_USER', user)
-      // } catch (error2) {
-      //   console.log('something wrong')
-      // }
-
-
     },
 
     // Create Data
-    async createVideo({ commit }, video) {
-      let response = await Api().post('/videos', video)
-      let savedVideo = response.data;
+    async createVideo({ commit, state }, video) {
 
-      commit('ADD_VIDEO', savedVideo)
-      commit('UPDATE_TAGS', savedVideo)
-      return savedVideo;
+      let userToken = { accessToken: Cookies.get('UAT'), refreshToken: Cookies.get('URT') }
+      let message = Tools.checkAndSetToken(jwt, userToken.accessToken, userToken.refreshToken, Api, Cookies)
+      message.then(async (result) => {
+        if (result.name == 'OK') {
+          let response = await Api().post('/videos', video)
+          let savedVideo = response.data;
+          commit('ADD_VIDEO', savedVideo)
+          commit('UPDATE_TAGS', savedVideo)
+          for (let tag of state.tags) {
+            if (video.tagIds.includes(tag._id)) {
+              await Api().patch(`/tags/${tag._id}`, tag)
+            }
+          }
+        }
+      })
     },
     async regUser({ commit }, regInfo) {
       try {
-        let response = await Api().post('/users', regInfo)
-        let user = response.data
-        //console.log("regUser")
-        commit("SET_CURRENT_USER", user)
-        return user
+        let res = await Api().post('/users', regInfo)
+        let response = await Api().get("/users")
+        let users = response.data
+
+        commit('SET_USERS', users)
+        return res
       } catch (error) {
         return { error: "ERROR! You have not completed your registration" }
       }
     },
 
     // Update Data
-    async updateTags({ state }, video) {
+    async updateTags({ commit, state }, video) {
+      commit('UPDATE_TAGS', video)
       for (let tag of state.tags) {
         if (video.tagIds.includes(tag._id)) {
           await Api().patch(`/tags/${tag._id}`, tag)
@@ -188,10 +171,16 @@ export default new Vuex.Store({
       commit('LIKE_VIDEO', likeVideo)
     },
     async editVideo({ commit }, video) {
-      await Api().patch(`/videos/${video._id}`, video)
+      let userToken = { accessToken: Cookies.get('UAT'), refreshToken: Cookies.get('URT') }
+      let message = Tools.checkAndSetToken(jwt, userToken.accessToken, userToken.refreshToken, Api, Cookies)
+      message.then(async (result) => {
+        if (result.name == 'OK') {
+          await Api().patch(`/videos/${video._id}`, video)
 
-      commit('EDIT_VIDEO', video)
-      commit('UPDATE_TAGS', video)
+          commit('EDIT_VIDEO', video)
+          commit('UPDATE_TAGS', video)
+        }
+      })
     },
     async logoutUser({ commit }) {
       let URT = { token: Cookies.get('URT') }
@@ -206,8 +195,6 @@ export default new Vuex.Store({
         let response = await Api().get('/users/login')
         let user = response.data
         commit("SET_CURRENT_USER", user)
-        // Cookies.set('userToken', jwt.data.accessToken)
-        // let response = await Api().get('/users/login')
 
         return user
       } catch (error) {
@@ -217,19 +204,25 @@ export default new Vuex.Store({
 
     // Delete Data
     async deleteVideo({ commit, state }, video) {
-      let delVideo = video
-      for (let tag of state.tags) {
-        if (tag.videosId.includes(delVideo._id)) {
-          tag.videosId = tag.videosId.filter(id => id != delVideo._id)
-          let newTag = tag
-          await Api().patch(`/tags/${newTag._id}`, newTag)
-        }
-      }
-      await Api().delete(`/videos/${delVideo._id}`)
-      delVideo.tagIds = []
+      let userToken = { accessToken: Cookies.get('UAT'), refreshToken: Cookies.get('URT') }
+      let message = Tools.checkAndSetToken(jwt, userToken.accessToken, userToken.refreshToken, Api, Cookies)
+      message.then(async (result) => {
+        if (result.name == 'OK') {
+          let delVideo = video
+          for (let tag of state.tags) {
+            if (tag.videosId.includes(delVideo._id)) {
+              tag.videosId = tag.videosId.filter(id => id != delVideo._id)
+              let newTag = tag
+              await Api().patch(`/tags/${newTag._id}`, newTag)
+            }
+          }
+          await Api().delete(`/videos/${delVideo._id}`)
+          delVideo.tagIds = []
 
-      commit('DELETE_VIDEO', delVideo._id)
-      commit('UPDATE_TAGS', delVideo)
+          commit('DELETE_VIDEO', delVideo._id)
+          commit('UPDATE_TAGS', delVideo)
+        }
+      })
     }
 
   },
@@ -243,7 +236,6 @@ export default new Vuex.Store({
     createPersistedState({
       storage: {
         getItem: key => Cookies.getJSON(key),
-        // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
         setItem: (key, value) => {
           value = JSON.parse(value)
           delete value.currentUser
@@ -254,3 +246,6 @@ export default new Vuex.Store({
     })
   ]
 })
+
+
+export default store

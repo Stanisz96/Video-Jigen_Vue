@@ -1,3 +1,5 @@
+
+
 let addVideoRules = {
   title: [
     v => !!v || "Title is required",
@@ -14,7 +16,8 @@ let addVideoRules = {
 
 let authRules = {
   name: [
-    v => !!v || "Name is required"
+    v => !!v || "Name is required",
+    v => v.length > 3 || "Username must have more than 3 characters"
   ],
   password: [
     v => !!v || "Password is required",

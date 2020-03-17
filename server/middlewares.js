@@ -1,26 +1,9 @@
-const Cookies = require('js-cookie')
+//const Cookies = require('js-cookie')
 const Video = require('./models/video')
 const User = require('./models/user')
 const Tag = require('./models/tag')
 const jwt = require('jsonwebtoken')
 
-
-
-// Find user by token
-async function checkUserAuth(req, res, next) {
-  try {
-    let token = req.headers.authorization
-    let user = await User.findOne({ token: token })
-    let is_admin = user.admin
-    if (is_admin) {
-      next()
-    } else {
-      return res.status(401).json({ message: `User ${user.name} do not have permission` })
-    }
-  } catch (error) {
-    next(error)
-  }
-}
 
 const notFound = (req, res, next) => {
   const error = new Error(`Not found: ${req.originalUrl}`)
@@ -102,7 +85,6 @@ async function getTag(req, res, next) {
 function authenticateToken(req, res, next) {
   let authHeader = req.headers.authorization
   const authToken = authHeader.split(' ')[1]
-  //console.log(authToken)
   if (authToken == null) return res.sendStatus(401)
   jwt.verify(authToken, process.env.VUE_APP_ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403)
@@ -118,7 +100,6 @@ module.exports = {
   getVideo,
   getUser,
   getTag,
-  checkUserAuth,
   getUserByName,
   authenticateToken
 }
