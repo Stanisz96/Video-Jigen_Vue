@@ -19,18 +19,21 @@ export default {
   components: {
     UserAuthForm
   },
-  data() {
-    return {};
-  },
   methods: {
-    ...mapActions(["loginUser"]),
+    ...mapActions(["loginUser", "setSnackbar"]),
     async reqloginUser(loginInfo) {
       let user = await this.loginUser(loginInfo);
+      let text, color;
+      let showing = true;
       if (user.error) {
-        alert(user.error);
+        color = "error";
+        text = `${user.error}!`;
       } else {
-        alert(`Welcome ${user.name}!`);
+        color = "success";
+        text = `Welcome ${user.name}!`;
+        this.$router.push({ name: "videos" });
       }
+      this.setSnackbar({ showing: showing, text: text, color: color });
     }
   }
 };

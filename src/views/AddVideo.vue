@@ -55,7 +55,7 @@
                 </v-list-item>
               </template>
             </v-combobox>
-            <v-btn small @click="addVideo(video)">Add Video</v-btn>
+            <v-btn small @click="addVideo(video)" :disabled="!valid">Add Video</v-btn>
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols="10" sm="6" md="5" lg="4">
@@ -91,7 +91,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["createVideo"]),
+    ...mapActions(["createVideo", "setSnackbar"]),
     getThumbnailUrl: function(event) {
       this.video.thumbnail = "https://img.youtube.com/vi/".concat(
         event.split("v=")[1].split("&")[0],
@@ -99,12 +99,14 @@ export default {
       );
     },
     async addVideo(video) {
-      if (this.valid) {
-        await this.createVideo(video);
-        this.$router.push({ name: "videos" });
-      } else {
-        alert("Invalid data!");
-      }
+      await this.createVideo(video);
+
+      this.setSnackbar({
+        showing: true,
+        text: `${video.name} was added`,
+        color: "success"
+      });
+      this.$router.push({ name: "videos" });
     }
   },
   data() {

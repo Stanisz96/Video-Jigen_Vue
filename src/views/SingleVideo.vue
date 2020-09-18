@@ -44,6 +44,7 @@ export default {
   name: "SingleVideo",
   created() {
     this.video = this.videos.find(video => video._id == this.$route.params.id);
+    console.log(this.video);
   },
   computed: {
     ...mapState(["videos", "likedVideos"]),
@@ -58,7 +59,9 @@ export default {
       this.player.playVideo();
     },
     getVideoId(vid) {
-      return vid.videoUrl.split("=")[1];
+      let vidId = vid.videoUrl.split("=")[1];
+      vidId = vidId.split("&")[0];
+      return vidId;
     }
   },
   data() {

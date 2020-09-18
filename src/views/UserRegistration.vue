@@ -29,16 +29,21 @@ export default {
     this.loadUsers();
   },
   methods: {
-    ...mapActions(["loadUsers", "regUser", "loginUser"]),
+    ...mapActions(["loadUsers", "regUser", "loginUser", "setSnackbar"]),
     async reqRegisterUser(regInfo) {
       let res = await this.regUser(regInfo);
+      let showing = true;
+      let text, color;
       if (res.error) {
-        alert(res.error);
+        color = "error";
+        text = `${res.error}!`;
       } else {
+        color = "success";
         let user = await this.loginUser(regInfo);
-        alert(`Welcome ${user.name}!`);
-        this.$router.push("/videos");
+        text = `Sign in was successful. Welcome ${user.name}!`;
+        this.$router.push({ name: "videos" });
       }
+      this.setSnackbar({ showing: showing, text: text, color: color });
     }
   }
 };
