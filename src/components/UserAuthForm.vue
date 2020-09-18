@@ -32,6 +32,8 @@ export default {
     if (this.submitButton == "Register") {
       let uniqueName = v => this.unique(v) || "Username is already taken";
       authRules.name[2] = uniqueName;
+    } else {
+      authRules.name.splice(2, 1);
     }
   },
   data() {

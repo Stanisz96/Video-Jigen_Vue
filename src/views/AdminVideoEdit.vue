@@ -63,7 +63,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["editVideo", "updateTags"]),
+    ...mapActions(["editVideo", "updateTags", "setSnackbar"]),
     getThumbnailUrl: function(event) {
       this.video.thumbnail = "https://img.youtube.com/vi/".concat(
         event.split("v=")[1].split("&")[0],
@@ -76,6 +76,11 @@ export default {
     async saveVideo() {
       await this.editVideo(this.video);
       this.updateTags(this.video);
+      this.setSnackbar({
+        showing: true,
+        text: `${this.video.name} was saved`,
+        color: "success"
+      });
       this.$router.push({ name: "admin-video-list" });
     }
   },

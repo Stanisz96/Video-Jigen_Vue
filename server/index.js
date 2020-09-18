@@ -9,7 +9,7 @@ const morgan = require('morgan')
 
 const middlewares = require('./middlewares')
 
-mongoose.connect('mongodb+srv://user1:pass1@jigencluster-qypzc.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect(process.env.DATABASE_URL, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   dbName: 'video-jigen',

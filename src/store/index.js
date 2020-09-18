@@ -16,7 +16,8 @@ const store = new Vuex.Store({
     videos: [],
     tags: [],
     users: [],
-    currentUser: {}
+    currentUser: {},
+    snackbars: []
   },
   mutations: {
     // SET STATE OBJECTS
@@ -31,6 +32,9 @@ const store = new Vuex.Store({
     },
     SET_CURRENT_USER(state, user) {
       state.currentUser = user
+    },
+    SET_SNACKBAR(state, snackbar) {
+      state.snackbars = state.snackbars.concat(snackbar)
     },
     // ADD TO STATE OBJECTS
     ADD_VIDEO(state, video) {
@@ -120,6 +124,9 @@ const store = new Vuex.Store({
           commit('SET_CURRENT_USER', user)
         }
       })
+    },
+    setSnackbar({ commit }, snackbar) {
+      commit('SET_SNACKBAR', snackbar)
     },
 
     // Create Data

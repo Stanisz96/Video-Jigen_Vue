@@ -32,6 +32,18 @@
     <v-content>
       <router-view />
     </v-content>
+
+    <v-snackbar
+      v-for="(snackbar, index) in snackbars.filter(s=>s.showing)"
+      :key="snackbar.text+Math.random()"
+      v-model="snackbar.showing"
+      :timeout="200+2000/(index+1)"
+      :color="snackbar.color"
+      :style="`bottom: ${index*60+10}px`"
+    >
+      {{snackbar.text}}
+      <v-btn text @click="snackbar.showing=false">Close</v-btn>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -42,7 +54,7 @@ import TabsExtension from "@/components/TabsExtension.vue";
 export default {
   name: "App",
   computed: {
-    ...mapState(["currentUser"]),
+    ...mapState(["currentUser", "snackbars"]),
     currentRouteName() {
       return this.$route.name;
     }
