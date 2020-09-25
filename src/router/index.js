@@ -24,11 +24,10 @@ const routes = [
     name: 'admin',
     component: loadView("Admin"),
     beforeEnter(to, from, next) {
-      let currentUser = store.state.currentUser
+      let currentUser = store.state.userModel.currentUser
       if (currentUser && currentUser.admin) {
         next()
       } else {
-        console.log(from)
         alert('You are not in admin mode!')
         next(from.path)
       }
@@ -90,7 +89,6 @@ const routes = [
 const router = new VueRouter({
   routes
 })
-
 
 
 export default router;

@@ -1,22 +1,22 @@
-const express = require('express')
-const router = express.Router()
-const middlewares = require('../../middlewares')
+const router = require('express').Router()
+const middle = require('../../middlewares')
 const Tag = require('../../models/tag')
 
 // Get tags
-router.get('/', async (req, res) => {
+router.get('/', middle.authenticateToken, async (req, res) => {
   try {
     const tags = await Tag.find()
     res.json(tags)
   } catch (error) {
     res.status(500).json({ message: error.message })
-
   }
 })
+
 // Get one tag
-router.get('/:id', middlewares.getTag, (req, res) => {
+router.get('/:id', middle.getTag, (req, res) => {
   res.json(res.tag)
 })
+
 // Create tag
 router.post('/', async (req, res) => {
   const tag = new Tag({
@@ -30,8 +30,9 @@ router.post('/', async (req, res) => {
     res.status(400).json({ message: error.message })
   }
 })
+
 // Update tag
-router.patch('/:id', middlewares.getTag, async (req, res) => {
+router.patch('/:id', middle.getTag, async (req, res) => {
   if (req.body.name != null) res.tag.name = req.body.name
   if (req.body.videosId != null) res.tag.videosId = req.body.videosId
 
@@ -40,11 +41,11 @@ router.patch('/:id', middlewares.getTag, async (req, res) => {
     res.json(updatedTag)
   } catch (error) {
     res.status(400).json({ message: error.message })
-
   }
 })
+
 // Delete tag
-router.delete('/:id', middlewares.getTag, async (req, res) => {
+router.delete('/:id', middle.getTag, async (req, res) => {
   try {
     await res.tag.remove()
     res.json({ message: `Deleted tag: ${res.tag.name}` })

@@ -1,10 +1,15 @@
 <template>
   <v-container fluid>
-    <div class="display-3 font-weight-regular my-6 d-flex justify-center">Sign in</div>
+    <div class="display-3 font-weight-regular my-6 d-flex justify-center">
+      Sign in
+    </div>
     <v-row>
       <v-spacer />
       <v-col>
-        <UserAuthForm :submitForm="reqRegisterUser" :submitButton="'Register'" />
+        <UserAuthForm
+          :submitForm="reqRegisterUser"
+          :submitButton="'Register'"
+        />
       </v-col>
       <v-spacer />
     </v-row>
@@ -17,13 +22,15 @@ import UserAuthForm from "@/components/UserAuthForm";
 
 export default {
   components: {
-    UserAuthForm
+    UserAuthForm,
   },
   data() {
     return {};
   },
   computed: {
-    ...mapState(["users"])
+    ...mapState({
+      users: (state) => state.userModel.users,
+    }),
   },
   created() {
     this.loadUsers();
@@ -44,8 +51,8 @@ export default {
         this.$router.push({ name: "videos" });
       }
       this.setSnackbar({ showing: showing, text: text, color: color });
-    }
-  }
+    },
+  },
 };
 </script>
 

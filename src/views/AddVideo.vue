@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="display-2 font-weight-regular my-6 d-flex justify-center">Add Youtube Video</div>
+    <div class="display-2 font-weight-regular my-6 d-flex justify-center">
+      Add Youtube Video
+    </div>
     <v-form v-model="valid">
       <v-container>
         <v-row justify="center">
@@ -48,18 +50,24 @@
                   <v-list-item-content>
                     <v-list-item-title>
                       No results matching "
-                      <strong>{{ search }}</strong>". Press
-                      <kbd>enter</kbd> to create a new one
+                      <strong>{{ search }}</strong
+                      >". Press <kbd>enter</kbd> to create a new one
                     </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </template>
             </v-combobox>
-            <v-btn small @click="addVideo(video)" :disabled="!valid">Add Video</v-btn>
+            <v-btn small @click="addVideo(video)" :disabled="!valid"
+              >Add Video</v-btn
+            >
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols="10" sm="6" md="5" lg="4">
-            <VideoListVideo :video="video" :tagModel="tagModel" class="ma-3 pa-2" />
+            <VideoListVideo
+              :video="video"
+              :tagModel="tagModel"
+              class="ma-3 pa-2"
+            />
           </v-col>
         </v-row>
       </v-container>
@@ -76,10 +84,12 @@ import { addVideoRules } from "@/utils/validations";
 export default {
   name: "AddVideo",
   components: {
-    VideoListVideo
+    VideoListVideo,
   },
   computed: {
-    ...mapState(["tags"]),
+    ...mapState({
+      tags: (state) => state.tagModel.tags,
+    }),
     tagNames() {
       return this.tags.map(({ _id, name }) => ({ _id, name }));
     },
@@ -88,11 +98,11 @@ export default {
         this.video.videoUrl.split("v=")[1].split("&")[0],
         "/0.jpg"
       );
-    }
+    },
   },
   methods: {
     ...mapActions(["createVideo", "setSnackbar"]),
-    getThumbnailUrl: function(event) {
+    getThumbnailUrl: function (event) {
       this.video.thumbnail = "https://img.youtube.com/vi/".concat(
         event.split("v=")[1].split("&")[0],
         "/0.jpg"
@@ -104,10 +114,10 @@ export default {
       this.setSnackbar({
         showing: true,
         text: `${video.name} was added`,
-        color: "success"
+        color: "success",
       });
       this.$router.push({ name: "videos" });
-    }
+    },
   },
   data() {
     return {
@@ -117,7 +127,7 @@ export default {
         thumbnail: "https://img.youtube.com/vi/0/0.jpg",
         _id: null,
         videoUrl: "",
-        tagIds: []
+        tagIds: [],
       },
       tagModel: [],
       valid: false,
@@ -127,8 +137,8 @@ export default {
       search: null,
       icons: {
         mdiHeart,
-        mdiHeartOutline
-      }
+        mdiHeartOutline,
+      },
     };
   },
   watch: {
@@ -136,9 +146,9 @@ export default {
       if (val.length > 5) {
         this.$nextTick(() => this.tagModel.pop());
       }
-      this.video.tagIds = val.map(tag => tag._id);
-    }
-  }
+      this.video.tagIds = val.map((tag) => tag._id);
+    },
+  },
 };
 </script>
 

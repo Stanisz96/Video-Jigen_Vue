@@ -9,26 +9,34 @@
             fitParent
             resize
             :resizeDelay="0"
-            @ready="loaded=true"
+            @ready="loaded = true"
           ></youtube>
         </div>
       </v-col>
       <v-col md="5" cols="12">
-        <div class="display-1 mb-3 font-weight-regular">{{video.name}}</div>
+        <div class="display-1 mb-3 font-weight-regular">{{ video.name }}</div>
         <v-btn depressed icon small @click="video.like = !video.like">
-          <v-icon v-if="video.like" color="#7dbd81">{{ icons.mdiHeart }}</v-icon>
+          <v-icon v-if="video.like" color="#7dbd81">{{
+            icons.mdiHeart
+          }}</v-icon>
           <v-icon v-else color="#7dbd81">{{ icons.mdiHeartOutline }}</v-icon>
         </v-btn>
-        <div class="my-3 video-description">{{video.description}}</div>
+        <div class="my-3 video-description">{{ video.description }}</div>
         <div class="d-inline-flex">
-          <div class="tag" v-for="tagId in video.tagIds" :key="tagId" color="#a1e3a6">
+          <div
+            class="tag"
+            v-for="tagId in video.tagIds"
+            :key="tagId"
+            color="#a1e3a6"
+          >
             <v-btn
               v-if="getTag(tagId)"
               class="button mr-2"
               x-small
-              :to="{ name: 'tag', params: { id: tagId} }"
+              :to="{ name: 'tag', params: { id: tagId } }"
               text
-            >{{getTag(tagId).name}}</v-btn>
+              >{{ getTag(tagId).name }}</v-btn
+            >
           </div>
         </div>
       </v-col>
@@ -43,15 +51,19 @@ import { mdiHeart, mdiHeartOutline } from "@mdi/js";
 export default {
   name: "SingleVideo",
   created() {
-    this.video = this.videos.find(video => video._id == this.$route.params.id);
-    console.log(this.video);
+    this.video = this.videos.find(
+      (video) => video._id == this.$route.params.id
+    );
   },
   computed: {
-    ...mapState(["videos", "likedVideos"]),
+    ...mapState({
+      videos: (state) => state.videoModel.videos,
+      likedVideos: (state) => state.videoModel.likedVideos,
+    }),
     ...mapGetters(["getTag"]),
     player() {
       return this.$refs.youtube.player;
-    }
+    },
   },
   methods: {
     ...mapActions(["likeVideo"]),
@@ -62,7 +74,7 @@ export default {
       let vidId = vid.videoUrl.split("=")[1];
       vidId = vidId.split("&")[0];
       return vidId;
-    }
+    },
   },
   data() {
     return {
@@ -70,10 +82,10 @@ export default {
       video: Object,
       icons: {
         mdiHeart,
-        mdiHeartOutline
-      }
+        mdiHeartOutline,
+      },
     };
-  }
+  },
 };
 </script>
 

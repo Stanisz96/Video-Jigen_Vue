@@ -8,11 +8,19 @@
       <div>Actions</div>
     </div>
     <div v-for="video in videos" :key="video._id" class="flex-table">
-      <div>{{ video.name}}</div>
-      <div>{{ video.description | abbreviate}}</div>
+      <div>{{ video.name }}</div>
+      <div>{{ video.description | abbreviate }}</div>
       <div class="actions">
-        <router-link class="link" :to="{ name: 'single-video',params: {id: video._id}}">Show</router-link>
-        <router-link class="link" :to="{ name: 'admin-video-edit',params: {id: video._id}}">Edit</router-link>
+        <router-link
+          class="link"
+          :to="{ name: 'single-video', params: { id: video._id } }"
+          >Show</router-link
+        >
+        <router-link
+          class="link"
+          :to="{ name: 'admin-video-edit', params: { id: video._id } }"
+          >Edit</router-link
+        >
         <v-btn class="button" @click="removeVideo(video)">Delete</v-btn>
       </div>
     </div>
@@ -23,14 +31,16 @@
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapState(["videos"])
+    ...mapState({
+      videos: (state) => state.videoModel.videos,
+    }),
   },
   filters: {
     abbreviate(text) {
       if (text) {
         return text && text.slice(0, 40) + "...";
       }
-    }
+    },
   },
   methods: {
     ...mapActions(["deleteVideo"]),
@@ -39,8 +49,8 @@ export default {
       if (response) {
         this.deleteVideo(video);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

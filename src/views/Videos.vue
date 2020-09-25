@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="display-3 font-weight-regular my-6 d-flex justify-center">Music Videos</div>
+    <div class="display-3 font-weight-regular my-6 d-flex justify-center">
+      Music Videos
+    </div>
     <div class="d-flex flex-wrap justify-center">
       <div v-for="video in videos" :key="video._id">
         <VideoListVideo :video="video" :active="true" class="ma-3 pa-2" />
@@ -17,19 +19,23 @@ export default {
   created() {
     this.loadVideos();
     this.loadTags();
+    // console.log("loadedTagsInVideos");
   },
   components: {
-    VideoListVideo
+    VideoListVideo,
   },
   computed: {
-    ...mapState(["videos", "tags"])
+    ...mapState({
+      videos: (state) => state.videoModel.videos,
+      tags: (state) => state.tagModel.tags,
+    }),
   },
   data() {
     return {};
   },
   methods: {
-    ...mapActions(["loadVideos", "loadTags"])
-  }
+    ...mapActions(["loadVideos", "loadTags"]),
+  },
 };
 </script>
 
