@@ -3,9 +3,22 @@
     <v-row>
       <v-spacer cols="0" sm="0" md="1" lg="1" />
       <v-col cols="12 pa-2" sm="4" md="5" lg="5">
-        <v-text-field v-model="video.name" label="Title" required></v-text-field>
-        <v-textarea v-model="video.description" label="Description" required></v-textarea>
-        <v-text-field @change="getThumbnailUrl" v-model="video.videoUrl" label="video Url" required></v-text-field>
+        <v-text-field
+          v-model="video.name"
+          label="Title"
+          required
+        ></v-text-field>
+        <v-textarea
+          v-model="video.description"
+          label="Description"
+          required
+        ></v-textarea>
+        <v-text-field
+          @change="getThumbnailUrl"
+          v-model="video.videoUrl"
+          label="video Url"
+          required
+        ></v-text-field>
         <br />
         <v-combobox
           v-model="tagModel"
@@ -24,8 +37,8 @@
               <v-list-item-content>
                 <v-list-item-title>
                   No results matching "
-                  <strong>{{ search }}</strong>". Press
-                  <kbd>enter</kbd> to create a new one
+                  <strong>{{ search }}</strong
+                  >". Press <kbd>enter</kbd> to create a new one
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -48,10 +61,13 @@ import VideoListVideo from "../components/VideoListVideo.vue";
 
 export default {
   components: {
-    VideoListVideo
+    VideoListVideo,
   },
   computed: {
-    ...mapState(["videos", "tags"]),
+    ...mapState({
+      videos: (state) => state.videoModel.videos,
+      tags: (state) => state.tagModel.tags,
+    }),
     tagNames() {
       return this.tags.map(({ _id, name }) => ({ _id, name }));
     },
@@ -60,17 +76,17 @@ export default {
         this.video.videoUrl.split("v=")[1].split("&")[0],
         "/0.jpg"
       );
-    }
+    },
   },
   methods: {
     ...mapActions(["editVideo", "updateTags", "setSnackbar"]),
-    getThumbnailUrl: function(event) {
+    getThumbnailUrl: function (event) {
       this.video.thumbnail = "https://img.youtube.com/vi/".concat(
         event.split("v=")[1].split("&")[0],
         "/0.jpg"
       );
     },
-    writeInConsole: function(val) {
+    writeInConsole: function (val) {
       console.log(val);
     },
     async saveVideo() {
@@ -79,15 +95,15 @@ export default {
       this.setSnackbar({
         showing: true,
         text: `${this.video.name} was saved`,
-        color: "success"
+        color: "success",
       });
       this.$router.push({ name: "admin-video-list" });
-    }
+    },
   },
   mounted() {
-    this.video = this.videos.find(v => v._id == this.$route.params.id);
-    let editTag = this.tags.filter(tag => {
-      let filterTag = tag.videosId.filter(_id => _id == this.video._id);
+    this.video = this.videos.find((v) => v._id == this.$route.params.id);
+    let editTag = this.tags.filter((tag) => {
+      let filterTag = tag.videosId.filter((_id) => _id == this.video._id);
       return filterTag.length != 0;
     });
     this.tagModel = editTag.map(({ _id, name }) => ({ _id, name }));
@@ -101,7 +117,7 @@ export default {
         _id: "",
         style: "",
         videoUrl: "",
-        tagIds: []
+        tagIds: [],
       },
       tagModel: [],
       valid: false,
@@ -110,15 +126,15 @@ export default {
       search: null,
       icons: {
         mdiHeart,
-        mdiHeartOutline
-      }
+        mdiHeartOutline,
+      },
     };
   },
   watch: {
     tagModel(val) {
-      this.video.tagIds = val.map(tag => tag._id);
-    }
-  }
+      this.video.tagIds = val.map((tag) => tag._id);
+    },
+  },
 };
 </script>
 

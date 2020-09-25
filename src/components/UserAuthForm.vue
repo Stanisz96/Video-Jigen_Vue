@@ -1,8 +1,12 @@
 <template>
   <v-form v-model="valid">
-    <v-text-field v-model="userInfo.name" label="Name" :rules="authRules.name"></v-text-field>
     <v-text-field
-      v-if="submitButton=='Register'"
+      v-model="userInfo.name"
+      label="Name"
+      :rules="authRules.name"
+    ></v-text-field>
+    <v-text-field
+      v-if="submitButton == 'Register'"
       v-model="userInfo.email"
       label="E-mail"
       :rules="authRules.email"
@@ -13,10 +17,12 @@
       :type="showPass ? 'text' : 'password'"
       :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
       :rules="authRules.password"
-      @click:append="showPass =!showPass"
+      @click:append="showPass = !showPass"
       counter
     ></v-text-field>
-    <v-btn small @click="submitForm(userInfo)" :disabled="!valid">{{submitButton}}</v-btn>
+    <v-btn small @click="submitForm(userInfo)" :disabled="!valid">{{
+      submitButton
+    }}</v-btn>
   </v-form>
 </template>
 
@@ -26,11 +32,13 @@ import { mapState } from "vuex";
 
 export default {
   computed: {
-    ...mapState(["users"])
+    ...mapState({
+      users: (state) => state.userModel.users,
+    }),
   },
   mounted() {
     if (this.submitButton == "Register") {
-      let uniqueName = v => this.unique(v) || "Username is already taken";
+      let uniqueName = (v) => this.unique(v) || "Username is already taken";
       authRules.name[2] = uniqueName;
     } else {
       authRules.name.splice(2, 1);
@@ -44,24 +52,19 @@ export default {
       userInfo: {
         name: "",
         password: "",
-        email: ""
-      }
+        email: "",
+      },
     };
   },
   methods: {
     unique(v) {
-      let bool;
-      for (let user of this.users) {
-        if (user.name == v) {
-          bool = false;
-          return bool;
-        }
-      }
-      bool = true;
-      return bool;
-    }
+      let isUnique = !this.users.some((item) => {
+        return item.name == v;
+      });
+      return isUnique;
+    },
   },
-  props: ["submitForm", "submitButton"]
+  props: ["submitForm", "submitButton"],
 };
 </script>
 

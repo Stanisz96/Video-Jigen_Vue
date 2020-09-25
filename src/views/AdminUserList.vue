@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="user in users" :key="user._id">
-      {{user.name}}
+      {{ user.name }}
       <v-btn x-small @click="loginUser(user)">Login</v-btn>
     </div>
   </div>
@@ -12,14 +12,16 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   computed: {
-    ...mapState(["users"])
+    ...mapState({
+      users: (state) => state.userModel.users,
+    }),
   },
   created() {
     this.loadUsers();
   },
   methods: {
-    ...mapActions(["loadUsers", "loginUser"])
-  }
+    ...mapActions(["loadUsers", "loginUser"]),
+  },
 };
 </script>
 

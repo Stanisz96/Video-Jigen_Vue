@@ -1,7 +1,13 @@
 <template>
-  <v-card max-width="300" hover color="#d3f8d6" class="rounded-card" v-if="active">
+  <v-card
+    max-width="300"
+    hover
+    color="#d3f8d6"
+    class="rounded-card"
+    v-if="active"
+  >
     <div class="ma-1">
-      <router-link :to="{ name: 'single-video', params: { id: video._id} }">
+      <router-link :to="{ name: 'single-video', params: { id: video._id } }">
         <v-img :src="video.thumbnail" alt="thumbnail" class="img-card"></v-img>
       </router-link>
       <v-card-title class="flex-wrap pa-1">{{ video.name }}</v-card-title>
@@ -16,20 +22,28 @@
           <v-row>
             <v-col cols="10">
               <div class="d-inline-flex flex-wrap">
-                <div class="tag" v-for="tagId in video.tagIds" :key="tagId" color="#a1e3a6">
+                <div
+                  class="tag"
+                  v-for="tagId in video.tagIds"
+                  :key="tagId"
+                  color="#a1e3a6"
+                >
                   <v-btn
                     v-if="getTag(tagId)"
                     class="button mr-2"
                     x-small
-                    :to="{ name: 'tag', params: { id: tagId} }"
+                    :to="{ name: 'tag', params: { id: tagId } }"
                     text
-                  >{{getTag(tagId).name}}</v-btn>
+                    >{{ getTag(tagId).name }}</v-btn
+                  >
                 </div>
               </div>
             </v-col>
             <v-col cols="2">
               <v-btn icon @click="show = !show">
-                <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                <v-icon>{{
+                  show ? "mdi-chevron-up" : "mdi-chevron-down"
+                }}</v-icon>
               </v-btn>
             </v-col>
           </v-row>
@@ -49,7 +63,7 @@
     <div class="ma-1">
       <v-img :src="video.thumbnail" alt="thumbnail" class="img-card"></v-img>
       <v-card-title class="flex-wrap pa-1">{{ video.name }}</v-card-title>
-      <v-btn depressed icon x-small @click="liked=!liked" class="ml-2 mb-2">
+      <v-btn depressed icon x-small @click="liked = !liked" class="ml-2 mb-2">
         <v-icon v-if="liked" color="#7dbd81">{{ icons.mdiHeart }}</v-icon>
         <v-icon v-else color="#7dbd81">{{ icons.mdiHeartOutline }}</v-icon>
       </v-btn>
@@ -59,14 +73,21 @@
           <v-row>
             <v-col cols="10">
               <div class="d-inline-flex flex-wrap">
-                <div class="tag" v-for="tag in tagModel" :key="tag._id" color="#a1e3a6">
-                  <v-btn class="button mr-2" x-small text>{{tag.name}}</v-btn>
+                <div
+                  class="tag"
+                  v-for="tag in tags"
+                  :key="tag._id"
+                  color="#a1e3a6"
+                >
+                  <v-btn class="button mr-2" x-small text>{{ tag.name }}</v-btn>
                 </div>
               </div>
             </v-col>
             <v-col cols="2">
               <v-btn icon @click="show = !show">
-                <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                <v-icon>{{
+                  show ? "mdi-chevron-up" : "mdi-chevron-down"
+                }}</v-icon>
               </v-btn>
             </v-col>
           </v-row>
@@ -92,22 +113,22 @@ export default {
   props: {
     video: {
       type: Object,
-      required: true
+      required: true,
     },
     active: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    tagModel: {
-      type: Array
-    }
+    tags: {
+      type: Array,
+    },
   },
   computed: {
     ...mapGetters(["getTag"]),
 
     liked() {
       return this.video.like;
-    }
+    },
   },
   data() {
     return {
@@ -116,13 +137,13 @@ export default {
       show: false,
       icons: {
         mdiHeart,
-        mdiHeartOutline
-      }
+        mdiHeartOutline,
+      },
     };
   },
   methods: {
-    ...mapActions(["likeVideo"])
-  }
+    ...mapActions(["likeVideo"]),
+  },
 };
 </script>
 

@@ -5,9 +5,7 @@ const app = express()
 const mongoose = require('mongoose')
 const helmet = require('helmet')
 const morgan = require('morgan')
-
-
-const middlewares = require('./middlewares')
+const middle = require('./middlewares')
 
 mongoose.connect(process.env.DATABASE_URL, {
   useUnifiedTopology: true,
@@ -32,15 +30,14 @@ const userRouter = require('./routes/api/users')
 const authRouter = require('./routes/api/auth')
 
 
-
 app.use('/api/videos', videosRouter)
 app.use('/api/tags', tagsRouter)
 app.use('/api/users', userRouter)
 app.use('/api/auth', authRouter)
 
 
-app.use(middlewares.notFound)
-app.use(middlewares.errorHandler)
+app.use(middle.notFound)
+app.use(middle.errorHandler)
 
 app.listen(3000, () => console.log('Server Started'))
 

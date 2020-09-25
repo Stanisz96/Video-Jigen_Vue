@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 
 export default () => {
   let userToken = Cookies.get('UAT')
+
   return axios.create({
     baseURL: 'http://localhost:3000/api/',
     withCredentials: false,

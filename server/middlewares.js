@@ -1,4 +1,3 @@
-//const Cookies = require('js-cookie')
 const Video = require('./models/video')
 const User = require('./models/user')
 const Tag = require('./models/tag')
@@ -11,7 +10,7 @@ const notFound = (req, res, next) => {
   next(error)
 }
 
-const errorHandler = (error, req, res, next) => {
+const errorHandler = (error, req, res) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode
   res.status(statusCode)
   res.json({
@@ -30,7 +29,6 @@ async function getVideo(req, res, next) {
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
-
   res.video = video
   next()
 }
@@ -45,13 +43,13 @@ async function getUser(req, res, next) {
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
-
   res.user = user
   next()
 }
 
 async function getUserByName(req, res, next) {
   let user
+  let userJson
   try {
     user = await User.findOne({ name: req.body.name })
     userJson = await User.findOne({ name: req.body.name }).lean()
@@ -67,6 +65,7 @@ async function getUserByName(req, res, next) {
   next()
 }
 
+
 async function getTag(req, res, next) {
   let tag
   try {
@@ -77,7 +76,6 @@ async function getTag(req, res, next) {
   } catch (error) {
     return res.status(500).json({ message: error.message })
   }
-
   res.tag = tag
   next()
 }
@@ -86,13 +84,13 @@ function authenticateToken(req, res, next) {
   let authHeader = req.headers.authorization
   const authToken = authHeader.split(' ')[1]
   if (authToken == null) return res.sendStatus(401)
-  jwt.verify(authToken, process.env.VUE_APP_ACCESS_TOKEN_SECRET, (err, user) => {
+  jwt.verify(authToken, process.env.VUE_APP_ACCESS_TOKEN_SECRET, (err, data) => {
     if (err) return res.sendStatus(403)
-    res.user = user
+    res.data = data
     next()
   })
-
 }
+
 
 module.exports = {
   notFound,

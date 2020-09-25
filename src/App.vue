@@ -4,14 +4,27 @@
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
       <v-btn href="#/videos" text x-large class="text--text">Home</v-btn>
-      <v-btn href="#/admin" v-if="currentUser.admin" text large class="text--text">Admin</v-btn>
+      <v-btn
+        href="#/admin"
+        v-if="currentUser.admin"
+        text
+        large
+        class="text--text"
+        >Admin</v-btn
+      >
 
       <v-spacer></v-spacer>
       <div v-if="currentUser.name">
         <v-btn href="/" text>
-          <span>{{currentUser.name}}</span>
+          <span>{{ currentUser.name }}</span>
         </v-btn>
-        <v-btn @click="logoutUser" text>
+        <v-btn
+          @click="
+            logoutUser();
+            mainPage();
+          "
+          text
+        >
           <span>Logout</span>
         </v-btn>
       </div>
@@ -29,20 +42,20 @@
       </template>
     </v-app-bar>
 
-    <v-content>
+    <v-main>
       <router-view />
-    </v-content>
+    </v-main>
 
     <v-snackbar
-      v-for="(snackbar, index) in snackbars.filter(s=>s.showing)"
-      :key="snackbar.text+Math.random()"
+      v-for="(snackbar, index) in snackbars.filter((s) => s.showing)"
+      :key="snackbar.text + Math.random()"
       v-model="snackbar.showing"
-      :timeout="200+2000/(index+1)"
+      :timeout="300 + 1600 / Math.pow(index + 1, 2)"
       :color="snackbar.color"
-      :style="`bottom: ${index*60+10}px`"
+      :style="`top: ${index * -70}px`"
     >
-      {{snackbar.text}}
-      <v-btn text @click="snackbar.showing=false">Close</v-btn>
+      {{ snackbar.text }}
+      <v-btn text @click="snackbar.showing = false">Close</v-btn>
     </v-snackbar>
   </v-app>
 </template>
@@ -54,33 +67,44 @@ import TabsExtension from "@/components/TabsExtension.vue";
 export default {
   name: "App",
   computed: {
-    ...mapState(["currentUser", "snackbars"]),
+    ...mapState({
+      currentUser: (state) => state.userModel.currentUser,
+      snackbars: (state) => state.guiModel.snackbars,
+    }),
     currentRouteName() {
       return this.$route.name;
-    }
+    },
   },
   created() {
+    // console.log("loadCurrentUser");
+    // console.log(this.isCurrentUserGuest);
     this.loadCurrentUser();
-    this.loadVideos();
-    this.loadTags();
+    // // console.log("loadVideos");
+    // this.loadVideos();
+    // // console.log("loadTags");
+    // this.loadTags();
   },
   methods: {
-    ...mapActions(["loadVideos", "loadTags", "logoutUser", "loadCurrentUser"])
+    ...mapActions(["loadVideos", "logoutUser", "loadCurrentUser"]),
+    mainPage() {
+      this.$router.push({ name: "home" });
+    },
   },
   components: {
-    TabsExtension
+    TabsExtension,
   },
   data: () => ({
     bgColor: {
-      background: "#fafffb"
+      background: "#fafffb",
     },
-    checkPath: false
+    checkPath: false,
+    isCurrentUserGuest: true,
   }),
   watch: {
-    currentRouteName: function(name) {
+    currentRouteName: function (name) {
       this.checkPath = /^admin?/.test(name);
-    }
-  }
+    },
+  },
 };
 </script>
 
