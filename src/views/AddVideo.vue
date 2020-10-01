@@ -63,11 +63,7 @@
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols="10" sm="6" md="5" lg="4">
-            <VideoListVideo
-              :video="video"
-              :tagModel="tagModel"
-              class="ma-3 pa-2"
-            />
+            <VideoListVideo :video="video" :tags="tagModel" class="ma-3 pa-2" />
           </v-col>
         </v-row>
       </v-container>
@@ -148,6 +144,9 @@ export default {
       }
       this.video.tagIds = val.map((tag) => tag._id);
     },
+  },
+  destroyed() {
+    console.log(`Add Video has been destroyed!`);
   },
 };
 </script>

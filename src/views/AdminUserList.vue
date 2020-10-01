@@ -22,6 +22,9 @@ export default {
   methods: {
     ...mapActions(["loadUsers", "loginUser"]),
   },
+  destroyed() {
+    console.log(`Admin user list has been destroyed!`);
+  },
 };
 </script>
 

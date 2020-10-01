@@ -86,6 +86,9 @@ export default {
       },
     };
   },
+  destroyed() {
+    console.log(`Single video has been destroyed!`);
+  },
 };
 </script>
 

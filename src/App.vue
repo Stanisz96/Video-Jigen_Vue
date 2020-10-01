@@ -43,7 +43,10 @@
     </v-app-bar>
 
     <v-main>
-      <router-view />
+      <keep-alive>
+        <router-view v-if="$route.meta.KeepAlive" />
+      </keep-alive>
+      <router-view v-if="!$route.meta.KeepAlive" />
     </v-main>
 
     <v-snackbar
@@ -76,16 +79,12 @@ export default {
     },
   },
   created() {
-    // console.log("loadCurrentUser");
-    // console.log(this.isCurrentUserGuest);
     this.loadCurrentUser();
-    // // console.log("loadVideos");
-    // this.loadVideos();
-    // // console.log("loadTags");
-    // this.loadTags();
+    this.loadVideos();
+    this.loadTags();
   },
   methods: {
-    ...mapActions(["loadVideos", "logoutUser", "loadCurrentUser"]),
+    ...mapActions(["loadVideos", "loadTags", "logoutUser", "loadCurrentUser"]),
     mainPage() {
       this.$router.push({ name: "home" });
     },
@@ -98,7 +97,6 @@ export default {
       background: "#fafffb",
     },
     checkPath: false,
-    isCurrentUserGuest: true,
   }),
   watch: {
     currentRouteName: function (name) {

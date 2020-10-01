@@ -53,6 +53,9 @@ export default {
       this.setSnackbar({ showing: showing, text: text, color: color });
     },
   },
+  destroyed() {
+    console.log(`User registration has been destroyed!`);
+  },
 };
 </script>
 

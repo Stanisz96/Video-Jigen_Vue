@@ -10,7 +10,10 @@ export default {
   components: {},
   data() {
     return {};
-  }
+  },
+  destroyed() {
+    console.log(`Home has been destroyed!`);
+  },
 };
 </script>
 

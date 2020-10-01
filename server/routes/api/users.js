@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 
 // Login user
 router.get('/login', middle.authenticateToken, (req, res) => {
-  res.json(res.data)
+  res.json(res.user)
 })
 
 // Create user

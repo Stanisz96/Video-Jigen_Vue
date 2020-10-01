@@ -51,6 +51,9 @@ export default {
       }
     },
   },
+  destroyed() {
+    console.log(`Admin video list has been destroyed!`);
+  },
 };
 </script>
 

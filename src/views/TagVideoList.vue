@@ -32,6 +32,9 @@ export default {
       return this.videos.filter((v) => this.tag.videosId.includes(v._id));
     },
   },
+  destroyed() {
+    console.log(`Tag video list has been destroyed!`);
+  },
 };
 </script>
 
