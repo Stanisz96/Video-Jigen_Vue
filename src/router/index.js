@@ -64,7 +64,10 @@ const routes = [
   {
     path: '/videos',
     name: 'videos',
-    component: loadView("Videos")
+    component: loadView("Videos"),
+    meta: {
+      KeepAlive: true
+    }
   },
   {
     path: '/videos/add',

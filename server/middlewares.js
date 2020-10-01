@@ -84,9 +84,9 @@ function authenticateToken(req, res, next) {
   let authHeader = req.headers.authorization
   const authToken = authHeader.split(' ')[1]
   if (authToken == null) return res.sendStatus(401)
-  jwt.verify(authToken, process.env.VUE_APP_ACCESS_TOKEN_SECRET, (err, data) => {
+  jwt.verify(authToken, process.env.VUE_APP_ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403)
-    res.data = data
+    res.user = user
     next()
   })
 }

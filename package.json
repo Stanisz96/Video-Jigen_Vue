@@ -10,6 +10,7 @@
     "start": "node server/index.js"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^2.1.4",
     "@mdi/js": "^4.9.95",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",

@@ -17,8 +17,8 @@ import VideoListVideo from "../components/VideoListVideo.vue";
 
 export default {
   created() {
-    this.loadVideos();
-    this.loadTags();
+    // this.loadVideos();
+    // this.loadTags();
     // console.log("loadedTagsInVideos");
   },
   components: {
@@ -35,6 +35,9 @@ export default {
   },
   methods: {
     ...mapActions(["loadVideos", "loadTags"]),
+  },
+  destroyed() {
+    console.log(`Videos list has been destroyed!`);
   },
 };
 </script>

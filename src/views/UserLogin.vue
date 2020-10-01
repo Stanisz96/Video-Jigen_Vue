@@ -1,6 +1,8 @@
 <template>
   <v-container fluid>
-    <div class="display-3 font-weight-regular my-6 d-flex justify-center">Login</div>
+    <div class="display-3 font-weight-regular my-6 d-flex justify-center">
+      Login
+    </div>
     <v-row>
       <v-spacer />
       <v-col>
@@ -17,7 +19,7 @@ import UserAuthForm from "@/components/UserAuthForm";
 
 export default {
   components: {
-    UserAuthForm
+    UserAuthForm,
   },
   methods: {
     ...mapActions(["loginUser", "setSnackbar"]),
@@ -34,8 +36,11 @@ export default {
         this.$router.push({ name: "videos" });
       }
       this.setSnackbar({ showing: showing, text: text, color: color });
-    }
-  }
+    },
+  },
+  destroyed() {
+    console.log(`User login has been destroyed!`);
+  },
 };
 </script>
 
