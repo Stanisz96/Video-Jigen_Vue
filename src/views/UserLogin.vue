@@ -22,7 +22,7 @@ export default {
     UserAuthForm,
   },
   methods: {
-    ...mapActions(["loginUser", "setSnackbar"]),
+    ...mapActions(["loginUser", "setSnackbar", "loadVideos", "loadTags"]),
     async reqloginUser(loginInfo) {
       let user = await this.loginUser(loginInfo);
       let text, color;
@@ -36,6 +36,8 @@ export default {
         this.$router.push({ name: "videos" });
       }
       this.setSnackbar({ showing: showing, text: text, color: color });
+      this.loadVideos();
+      this.loadTags();
     },
   },
   destroyed() {

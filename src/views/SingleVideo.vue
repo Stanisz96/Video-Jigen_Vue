@@ -1,7 +1,7 @@
 <template v-if="videos">
   <v-container fluid>
-    <v-row>
-      <v-col md="7" cols="12" v-show="loaded">
+    <v-row v-show="loaded">
+      <v-col md="7" cols="12">
         <div class="video-style">
           <youtube
             :video-id="getVideoId(video)"

@@ -32,7 +32,7 @@
             ></v-text-field>
             <br />
             <v-combobox
-              v-model="tagModel"
+              v-model="tagWatch"
               :items="tagNames"
               :search-input.sync="search"
               hint="Maximum of 5 tags"
@@ -76,6 +76,7 @@ import { mdiHeart, mdiHeartOutline } from "@mdi/js";
 import { mapActions, mapState } from "vuex";
 import VideoListVideo from "../components/VideoListVideo.vue";
 import { addVideoRules } from "@/utils/validations";
+import { updateTagModelCard } from "@/utils/tools";
 
 export default {
   name: "AddVideo",
@@ -97,7 +98,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["createVideo", "setSnackbar"]),
+    ...mapActions(["createVideo", "setSnackbar", "addTags"]),
     getThumbnailUrl: function (event) {
       this.video.thumbnail = "https://img.youtube.com/vi/".concat(
         event.split("v=")[1].split("&")[0],
@@ -105,6 +106,14 @@ export default {
       );
     },
     async addVideo(video) {
+      if (this.newTags.length != 0) {
+        let createdTags = await this.addTags(this.newTags);
+
+        for (let createdTag of createdTags) {
+          this.video.tagIds.push(createdTag._id);
+        }
+      }
+
       await this.createVideo(video);
 
       this.setSnackbar({
@@ -126,6 +135,13 @@ export default {
         tagIds: [],
       },
       tagModel: [],
+      tagWatch: [],
+      newTags: [
+        {
+          name: String,
+          videosId: Array,
+        },
+      ],
       valid: false,
       liked: false,
       show: true,
@@ -138,11 +154,13 @@ export default {
     };
   },
   watch: {
-    tagModel(val) {
+    tagWatch(val) {
       if (val.length > 5) {
-        this.$nextTick(() => this.tagModel.pop());
+        this.$nextTick(() => this.tagWatch.pop());
       }
       this.video.tagIds = val.map((tag) => tag._id);
+
+      [this.tagModel, this.newTags] = updateTagModelCard(val);
     },
   },
   destroyed() {
