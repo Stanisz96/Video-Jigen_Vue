@@ -3,7 +3,8 @@
     <v-app-bar app color="#5eb56f">
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-      <v-btn href="#/videos" text x-large class="text--text">Home</v-btn>
+      <v-btn href="#/" text x-large class="text--text">Home</v-btn>
+      <v-btn href="#/videos" text x-large class="text--text">Videos</v-btn>
       <v-btn
         href="#/admin"
         v-if="currentUser.admin"

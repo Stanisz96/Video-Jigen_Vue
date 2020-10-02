@@ -1,8 +1,9 @@
 
-const jwt = require('jsonwebtoken')
+// const jwt = require('jsonwebtoken')
+import jwt from 'jsonwebtoken'
+import { v4 as uuidv4 } from "uuid";
 
-
-function checkAndSetToken(Token, Api, Cookies) {
+export function checkAndSetToken(Token, Api, Cookies) {
   let resultName
   let verify = jwt.verify(Token.accessToken, process.env.VUE_APP_ACCESS_TOKEN_SECRET, async (err) => {
     if (err) {
@@ -27,8 +28,17 @@ function checkAndSetToken(Token, Api, Cookies) {
   return verify
 }
 
+export function updateTagModelCard(val) {
+  let newTags = val
+    .filter((t) => typeof t == "string")
+    .map(function (n) {
+      return { name: n, _id: uuidv4() };
+    });
 
+  let tagModel = val
+    .filter((t) => typeof t != "string")
+    .concat(newTags);
 
-module.exports = {
-  checkAndSetToken
+  return [tagModel, newTags]
 }
+

@@ -21,11 +21,11 @@ router.get('/:id', middle.getTag, (req, res) => {
 router.post('/', async (req, res) => {
   const tag = new Tag({
     name: req.body.name,
-    videosId: req.body.videosId,
   })
   try {
     const newTag = await tag.save()
     res.status(201).json(newTag)
+
   } catch (error) {
     res.status(400).json({ message: error.message })
   }

@@ -8,6 +8,10 @@ export default {
     SET_TAGS(state, tags) {
       state.tags = tags
     },
+    ADD_TAG(state, tag) {
+      let tags = state.tags.concat(tag)
+      state.tags = tags
+    },
     UPDATE_TAGS(state, video) {
       let videoId = video._id
       let videoTags = video.tagIds
@@ -33,13 +37,13 @@ export default {
   },
   actions: {
     async loadTags({ commit }) {
-      console.log("loadTags")
+      console.log("Load tags")
       let response = await Api().get("/tags");
       let tags = response.data
       commit('SET_TAGS', tags)
     },
     async updateTags({ commit, state }, video) {
-      console.log("updateTags")
+      console.log("Update tags")
       let videoId = video._id
       let videoTags = video.tagIds
       let tags = state.tags
@@ -62,14 +66,22 @@ export default {
         }
       }
       commit('SET_TAGS', tags)
-
-      // for (let tag of state.tags) {
-      //   if (video.tagIds.includes(tag._id)) {
-      //     console.log(tag)
-      //     await Api().patch(`/tags/${tag._id}`, tag)
-      //   }
-      // }
     },
+    async addTags({ commit }, tags) {
+      let newTags = []
+      for (let tag of tags) {
+        try {
+          let response = await Api().post('/tags', tag)
+          let newTag = response.data
+          console.log(`ADDED NEW TAG: ${newTag.name}`)
+          commit('ADD_TAG', newTag)
+          newTags = newTags.concat(newTag)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      return newTags
+    }
   },
   getters: {
     getTag: state => _id => {

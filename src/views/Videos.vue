@@ -16,11 +16,7 @@ import { mapState, mapActions } from "vuex";
 import VideoListVideo from "../components/VideoListVideo.vue";
 
 export default {
-  created() {
-    // this.loadVideos();
-    // this.loadTags();
-    // console.log("loadedTagsInVideos");
-  },
+  created() {},
   components: {
     VideoListVideo,
   },

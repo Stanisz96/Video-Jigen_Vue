@@ -21,7 +21,7 @@
         ></v-text-field>
         <br />
         <v-combobox
-          v-model="tagModel"
+          v-model="tagWatch"
           :items="tagNames"
           :search-input.sync="search"
           label="Edit tags to video"
@@ -58,10 +58,40 @@
 import { mdiHeart, mdiHeartOutline } from "@mdi/js";
 import { mapActions, mapState } from "vuex";
 import VideoListVideo from "../components/VideoListVideo.vue";
+import { updateTagModelCard } from "@/utils/tools";
 
 export default {
   components: {
     VideoListVideo,
+  },
+  data() {
+    return {
+      video: {
+        name: "",
+        description: "",
+        thumbnail: "https://img.youtube.com/vi/0/0.jpg",
+        _id: "",
+        style: "",
+        videoUrl: "",
+        tagIds: [],
+      },
+      tagModel: [],
+      tagWatch: [],
+      newTags: [
+        {
+          name: String,
+          videosId: Array,
+        },
+      ],
+      valid: false,
+      liked: false,
+      show: true,
+      search: null,
+      icons: {
+        mdiHeart,
+        mdiHeartOutline,
+      },
+    };
   },
   computed: {
     ...mapState({
@@ -79,7 +109,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["editVideo", "updateTags", "setSnackbar"]),
+    ...mapActions(["editVideo", "updateTags", "addTags", "setSnackbar"]),
     getThumbnailUrl: function (event) {
       this.video.thumbnail = "https://img.youtube.com/vi/".concat(
         event.split("v=")[1].split("&")[0],
@@ -89,14 +119,26 @@ export default {
     writeInConsole: function (val) {
       console.log(val);
     },
+    getVideoId() {
+      return this.video._id;
+    },
     async saveVideo() {
+      if (this.newTags.length != 0) {
+        let createdTags = await this.addTags(this.newTags);
+
+        for (let createdTag of createdTags) {
+          this.video.tagIds.push(createdTag._id);
+        }
+      }
       await this.editVideo(this.video);
       await this.updateTags(this.video);
+
       this.setSnackbar({
         showing: true,
         text: `${this.video.name} was saved`,
         color: "success",
       });
+
       this.$router.push({ name: "admin-video-list" });
     },
   },
@@ -106,33 +148,14 @@ export default {
       let filterTag = tag.videosId.filter((_id) => _id == this.video._id);
       return filterTag.length != 0;
     });
-    this.tagModel = editTag.map(({ _id, name }) => ({ _id, name }));
-  },
-  data() {
-    return {
-      video: {
-        name: "",
-        description: "",
-        thumbnail: "https://img.youtube.com/vi/0/0.jpg",
-        _id: "",
-        style: "",
-        videoUrl: "",
-        tagIds: [],
-      },
-      tagModel: [],
-      valid: false,
-      liked: false,
-      show: true,
-      search: null,
-      icons: {
-        mdiHeart,
-        mdiHeartOutline,
-      },
-    };
+    this.tagWatch = editTag.map(({ _id, name }) => ({ _id, name }));
+    this.tagModel = this.tagWatch;
   },
   watch: {
-    tagModel(val) {
+    tagWatch(val) {
       this.video.tagIds = val.map((tag) => tag._id);
+
+      [this.tagModel, this.newTags] = updateTagModelCard(val);
     },
   },
   destroyed() {

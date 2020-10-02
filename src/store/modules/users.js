@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 import Api from '@/services/api'
-import Tools from '@/utils/tools'
+import { checkAndSetToken } from '@/utils/tools'
 
 export default {
   state: {
@@ -37,7 +37,7 @@ export default {
         return true
       }
       else {
-        let message = Tools.checkAndSetToken(userToken, Api, Cookies)
+        let message = checkAndSetToken(userToken, Api, Cookies)
         message.then(async (result) => {
           if (result.name == 'OK') {
             let loginRes = await Api().get('/users/login')

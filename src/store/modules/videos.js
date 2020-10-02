@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 import Api from '@/services/api'
-import Tools from '@/utils/tools'
+import { checkAndSetToken } from '@/utils/tools'
 
 export default {
   state: {
@@ -13,7 +13,6 @@ export default {
     ADD_VIDEO(state, video) {
       let videos = state.videos.concat(video)
       state.videos = videos
-      console.log(state.videos)
     },
     DELETE_VIDEO(state, videoId) {
       let videos = state.videos.filter(v => v._id != videoId)
@@ -40,7 +39,7 @@ export default {
   actions: {
     async loadVideos({ commit }) {
       let userToken = { accessToken: Cookies.get('UAT'), refreshToken: Cookies.get('URT') }
-      let message = Tools.checkAndSetToken(userToken, Api, Cookies)
+      let message = checkAndSetToken(userToken, Api, Cookies)
       message.then(async (result) => {
         if (result.name == 'OK') {
           let response = await Api().get("/videos");
@@ -53,7 +52,7 @@ export default {
     },
     async createVideo({ commit, rootState }, video) {
       let userToken = { accessToken: Cookies.get('UAT'), refreshToken: Cookies.get('URT') }
-      let message = Tools.checkAndSetToken(userToken, Api, Cookies)
+      let message = checkAndSetToken(userToken, Api, Cookies)
       message.then(async (result) => {
         if (result.name == 'OK') {
           let response = await Api().post('/videos', video)
@@ -77,7 +76,7 @@ export default {
     },
     async editVideo({ commit }, video) {
       let userToken = { accessToken: Cookies.get('UAT'), refreshToken: Cookies.get('URT') }
-      let message = Tools.checkAndSetToken(userToken, Api, Cookies)
+      let message = checkAndSetToken(userToken, Api, Cookies)
       message.then(async (result) => {
         if (result.name == 'OK') {
           await Api().patch(`/videos/${video._id}`, video)
@@ -89,8 +88,8 @@ export default {
     },
     async deleteVideo({ commit, rootState }, video) {
       let userToken = { accessToken: Cookies.get('UAT'), refreshToken: Cookies.get('URT') }
-      let message = Tools.checkAndSetToken(userToken, Api, Cookies)
-      console.log(message)
+      let message = checkAndSetToken(userToken, Api, Cookies)
+
       message.then(async (result) => {
         if (result.name == 'OK') {
           let delVideo = video
