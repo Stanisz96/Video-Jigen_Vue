@@ -49,6 +49,7 @@ export default {
           console.log(result)
         }
       })
+      console.log("loadVideos")
     },
     async createVideo({ commit, rootState }, video) {
       let userToken = { accessToken: Cookies.get('UAT'), refreshToken: Cookies.get('URT') }

@@ -56,6 +56,11 @@ router.post('/login_user', middle.getUserByName, async function (req, res) {
   }
 })
 
+router.post('/admin', middle.authenticateToken, async function (req, res) {
+  let user = res.user
+  res.json(user.admin)
+})
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function generateAccessToken(userJson) {

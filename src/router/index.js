@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/index.js'
+import Api from '@/services/api'
 
 Vue.use(VueRouter)
 
@@ -23,9 +24,10 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: loadView("Admin"),
-    beforeEnter(to, from, next) {
+    async beforeEnter(to, from, next) {
       let currentUser = store.state.userModel.currentUser
-      if (currentUser && currentUser.admin) {
+      let res = await Api().post('/auth/admin')
+      if (res.data && currentUser.admin) {
         next()
       } else {
         alert('You are not in admin mode!')
@@ -37,6 +39,11 @@ const routes = [
         path: 'videos',
         name: "admin-video-list",
         component: loadView("AdminVideoList")
+      },
+      {
+        path: 'tags',
+        name: "admin-tag-list",
+        component: loadView("AdminTagList")
       },
       {
         path: 'users',

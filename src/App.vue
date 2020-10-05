@@ -19,13 +19,7 @@
         <v-btn href="/" text>
           <span>{{ currentUser.name }}</span>
         </v-btn>
-        <v-btn
-          @click="
-            logoutUser();
-            mainPage();
-          "
-          text
-        >
+        <v-btn @click="logoutToMainPage()" text>
           <span>Logout</span>
         </v-btn>
       </div>
@@ -86,7 +80,8 @@ export default {
   },
   methods: {
     ...mapActions(["loadVideos", "loadTags", "logoutUser", "loadCurrentUser"]),
-    mainPage() {
+    logoutToMainPage() {
+      this.logoutUser();
       this.$router.push({ name: "home" });
     },
   },

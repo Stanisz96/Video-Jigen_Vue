@@ -45,6 +45,7 @@ export default {
             commit('SET_CURRENT_USER', user)
           }
         })
+        console.log("loadCurrentUser")
         return false
       }
     },
@@ -80,5 +81,17 @@ export default {
         return { error: "something wrong with name or pass" }
       }
     },
+    async isUserAdmin({ state }) {
+      try {
+        let res = await Api().post('/auth/admin')
+        if (res.data && state.currentUser.admin) {
+          return true
+        } else {
+          return false
+        }
+      } catch (error) {
+        return false
+      }
+    }
   }
 }

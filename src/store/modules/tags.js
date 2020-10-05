@@ -1,4 +1,6 @@
 import Api from '@/services/api'
+import Cookies from 'js-cookie'
+import { checkAndSetToken } from '@/utils/tools'
 
 export default {
   state: {
@@ -30,6 +32,10 @@ export default {
         }
       })
       state.tags = tags;
+    },
+    DELETE_TAG(state, tagId) {
+      let tags = state.tags.filter(t => t._id != tagId)
+      state.tags = tags
     },
     LOGOUT_TAGS(state) {
       state.tags = []
@@ -81,6 +87,29 @@ export default {
         }
       }
       return newTags
+    },
+    async deleteTag({ commit, rootState }, tag) {
+      let userToken = { accessToken: Cookies.get('UAT'), refreshToken: Cookies.get('URT') }
+      let message = checkAndSetToken(userToken, Api, Cookies)
+
+      message.then(async (result) => {
+        if (result.name == 'OK') {
+          let delTag = tag
+          for (let video of rootState.videoModel.videos) {
+            if (delTag.videosId.includes(video._id)) {
+              video.tagIds = video.tagIds.filter(id => id != delTag._id)
+              let updatedVideo = video
+
+              await Api().patch(`/videos/${updatedVideo._id}`)
+
+              console.log(`REMOVE TAG: ${delTag.name} FROM VIDEO: ${video.name}`)
+            }
+          }
+          await Api().delete(`/tags/${delTag._id}`)
+
+          commit('DELETE_TAG', delTag._id)
+        }
+      })
     }
   },
   getters: {

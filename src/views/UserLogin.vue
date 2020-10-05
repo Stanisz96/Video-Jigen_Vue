@@ -18,6 +18,7 @@ import { mapActions } from "vuex";
 import UserAuthForm from "@/components/UserAuthForm";
 
 export default {
+  name: "UserLogin",
   components: {
     UserAuthForm,
   },
@@ -36,8 +37,8 @@ export default {
         this.$router.push({ name: "videos" });
       }
       this.setSnackbar({ showing: showing, text: text, color: color });
-      this.loadVideos();
-      this.loadTags();
+      await this.loadVideos();
+      await this.loadTags();
     },
   },
   destroyed() {
