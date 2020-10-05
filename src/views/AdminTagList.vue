@@ -31,16 +31,16 @@ export default {
   filters: {
     abbreviate(text) {
       if (text) {
-        return text && text.slice(0, 40) + "...";
+        return text && text.slice(0, 30) + "...";
       }
     },
   },
   methods: {
-    ...mapActions(["deleteVideo"]),
-    removeVideo(video) {
-      let response = confirm(`Are you sure you want to delete ${video.name}?`);
+    ...mapActions(["deleteTag"]),
+    removeTag(tag) {
+      let response = confirm(`Are you sure you want to delete ${tag.name}?`);
       if (response) {
-        this.deleteVideo(video);
+        this.deleteTag(tag);
       }
     },
   },
