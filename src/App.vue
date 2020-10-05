@@ -82,7 +82,10 @@ export default {
     ...mapActions(["loadVideos", "loadTags", "logoutUser", "loadCurrentUser"]),
     logoutToMainPage() {
       this.logoutUser();
-      this.$router.push({ name: "home" });
+
+      if (this.$router.currentRoute.name != "home") {
+        this.$router.push({ name: "home" });
+      }
     },
   },
   components: {
